@@ -5,11 +5,13 @@ import "../styles/global.css";
 interface Props {
   title?: string;
   description?: string;
+  keywords?: string;
 }
 
 const {
-  title = "Bulk Image Downloader Online Free - Batch Image Downloader",
-  description = "Download multiple images instantly from URL lists or extract and download all images from any webpage. Completely free, fast, secure, and client-side.",
+  title = "Free Bulk Image Downloader Online - Download from URL List",
+  description = "Download multiple images instantly from URL lists or webpages with the best free bulk image downloader. 100% secure, fast, and free client-side tool.",
+  keywords = "free bulk image downloader, bulk image downloader from url list, bulk image downloader chrome, chrome bulk image downloader, bulk image downloader free, bulk image downloader online, download bulk image downloader, best bulk image downloader, free bulk image downloader online, free bulk image downloader from url list",
 } = Astro.props;
 
 const canonicalUrl = new URL(
@@ -28,6 +30,7 @@ const canonicalUrl = new URL(
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
     <meta name="author" content="Bulk Image Downloader" />
     <meta name="publisher" content="Bulk Image Downloader" />
     <meta name="robots" content="index, follow" />
