@@ -65,12 +65,13 @@ const canonicalUrl = new URL(
       rel="stylesheet"
     />
 
-    <!-- Favicon (Fallback inline SVG for absolute clean visual) -->
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>"
-    />
+    <!-- Favicon / App Icons -->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="BulkImageDownloader" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Inline script to set default dark mode or load saved theme without flash -->
     <script is:inline>
@@ -102,10 +103,39 @@ const canonicalUrl = new URL(
           href="/"
           class="flex items-center gap-2 font-mono text-xs sm:text-sm font-semibold tracking-tight text-ink transition-opacity hover:opacity-80"
         >
-          <span
-            class="flex h-6 w-6 items-center justify-center rounded-sm bg-primary text-[11px] font-bold text-on-primary shrink-0"
-            >⚡</span
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 600 600"
+            class="h-6 w-6 shrink-0"
           >
+            <rect width="600" height="600" rx="65" fill="#000000" />
+            <g transform="translate(85, 85) scale(17.9167)">
+              <path
+                d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"
+                fill="none"
+                stroke="#ffffff"
+                stroke-width="2.46"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M12 12v9"
+                fill="none"
+                stroke="#ffffff"
+                stroke-width="2.46"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="m8 17 4 4 4-4"
+                fill="none"
+                stroke="#ffffff"
+                stroke-width="2.46"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+          </svg>
           <span class="hidden sm:inline">BULK IMAGE DOWNLOADER</span>
           <span class="sm:hidden">BULK IMAGES</span>
         </a>
@@ -221,19 +251,28 @@ const canonicalUrl = new URL(
             <ul class="flex flex-col gap-2 text-sm">
               <li>
                 <a href="/" class="transition-colors hover:text-ink"
-                  >General Downloader</a>
+                  >General Downloader</a
+                >
               </li>
               <li>
-                <a href="/url-list-downloader" class="transition-colors hover:text-ink"
-                  >URL List Downloader</a>
+                <a
+                  href="/url-list-downloader"
+                  class="transition-colors hover:text-ink"
+                  >URL List Downloader</a
+                >
               </li>
               <li>
-                <a href="/webpage-image-scraper" class="transition-colors hover:text-ink"
-                  >Webpage Image Scraper</a>
+                <a
+                  href="/webpage-image-scraper"
+                  class="transition-colors hover:text-ink"
+                  >Webpage Image Scraper</a
+                >
               </li>
               <li>
-                <a href="/chrome-extension-alternative" class="transition-colors hover:text-ink"
-                  >Chrome Alternative</a>
+                <a
+                  href="/chrome-extension-alternative"
+                  class="transition-colors hover:text-ink">Chrome Alternative</a
+                >
               </li>
             </ul>
           </div>
