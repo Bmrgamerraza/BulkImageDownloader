@@ -12,11 +12,11 @@ export const GET: APIRoute = async ({ url }) => {
 
   try {
     const targetUrl = new URL(imageUrl);
-    
+
     // Set up AbortController for a 5-second timeout
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000);
-    
+
     // Fetch image from source
     const response = await fetch(targetUrl.href, {
       signal: controller.signal,
@@ -39,7 +39,7 @@ export const GET: APIRoute = async ({ url }) => {
     }
 
     const contentType = response.headers.get("Content-Type") || "application/octet-stream";
-    
+
     // Verify it is actually an image or binary file
     if (!contentType.startsWith("image/") && contentType !== "application/octet-stream") {
       return new Response(

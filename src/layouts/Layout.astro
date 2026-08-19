@@ -7,20 +7,23 @@ interface Props {
   description?: string;
 }
 
-const { 
-  title = "Bulk Image Downloader Online Free - Batch Image Downloader", 
-  description = "Download multiple images instantly from URL lists or extract and download all images from any webpage. Completely free, fast, secure, and client-side." 
+const {
+  title = "Bulk Image Downloader Online Free - Batch Image Downloader",
+  description = "Download multiple images instantly from URL lists or extract and download all images from any webpage. Completely free, fast, secure, and client-side.",
 } = Astro.props;
 
-const canonicalUrl = new URL(Astro.url.pathname, "https://freebulkimagedownloader.com");
+const canonicalUrl = new URL(
+  Astro.url.pathname,
+  "https://freebulkimagedownloader.com",
+);
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <!-- Primary Meta Tags -->
     <title>{title}</title>
     <meta name="title" content={title} />
@@ -36,27 +39,44 @@ const canonicalUrl = new URL(Astro.url.pathname, "https://freebulkimagedownloade
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content="Bulk Image Downloader" />
-    <meta property="og:image" content="https://freebulkimagedownloader.com/og-image.jpg" />
+    <meta
+      property="og:image"
+      content="https://freebulkimagedownloader.com/og-image.jpg"
+    />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalUrl} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content="https://freebulkimagedownloader.com/og-image.jpg" />
+    <meta
+      property="twitter:image"
+      content="https://freebulkimagedownloader.com/og-image.jpg"
+    />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Favicon (Fallback inline SVG for absolute clean visual) -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>"
+    />
 
     <!-- Inline script to set default dark mode or load saved theme without flash -->
     <script is:inline>
       const savedTheme = localStorage.getItem("theme");
-      if (savedTheme === "light" || (!savedTheme && window.matchMedia("(prefers-color-scheme: light)").matches)) {
+      if (
+        savedTheme === "light" ||
+        (!savedTheme &&
+          window.matchMedia("(prefers-color-scheme: light)").matches)
+      ) {
         document.documentElement.classList.add("light");
       } else {
         document.documentElement.classList.remove("light");
@@ -65,33 +85,57 @@ const canonicalUrl = new URL(Astro.url.pathname, "https://freebulkimagedownloade
 
     <meta name="generator" content={Astro.generator} />
   </head>
-  <body class="bg-canvas-soft text-ink font-sans selection:bg-primary selection:text-on-primary">
+  <body
+    class="bg-canvas-soft text-ink font-sans selection:bg-primary selection:text-on-primary"
+  >
     <!-- Header/Navigation Bar -->
-    <header class="sticky top-0 z-50 h-16 border-b border-hairline bg-canvas/80 backdrop-blur-md">
-      <div class="mx-auto flex h-full max-w-[1400px] items-center justify-between px-4 sm:px-6 md:px-8">
-        <a href="/" class="flex items-center gap-2 font-mono text-sm font-semibold tracking-tight text-ink transition-opacity hover:opacity-80">
-          <span class="flex h-6 w-6 items-center justify-center rounded-sm bg-primary text-[11px] font-bold text-on-primary">⚡</span>
+    <header
+      class="sticky top-0 z-50 h-16 border-b border-hairline bg-canvas/80 backdrop-blur-md"
+    >
+      <div
+        class="mx-auto flex h-full max-w-[1400px] items-center justify-between px-4 sm:px-6 md:px-8"
+      >
+        <a
+          href="/"
+          class="flex items-center gap-2 font-mono text-sm font-semibold tracking-tight text-ink transition-opacity hover:opacity-80"
+        >
+          <span
+            class="flex h-6 w-6 items-center justify-center rounded-sm bg-primary text-[11px] font-bold text-on-primary"
+            >⚡</span
+          >
           BULK IMAGE DOWNLOADER
         </a>
-        
+
         <nav class="hidden items-center gap-6 md:flex">
-          <a href="#downloader" class="text-sm font-medium text-body transition-colors hover:text-ink">Downloader</a>
-          <a href="#features" class="text-sm font-medium text-body transition-colors hover:text-ink">Features</a>
-          <a href="#how-to-use" class="text-sm font-medium text-body transition-colors hover:text-ink">How to Use</a>
+          <a
+            href="#downloader"
+            class="text-sm font-medium text-body transition-colors hover:text-ink"
+            >Downloader</a
+          >
+          <a
+            href="#features"
+            class="text-sm font-medium text-body transition-colors hover:text-ink"
+            >Features</a
+          >
+          <a
+            href="#how-to-use"
+            class="text-sm font-medium text-body transition-colors hover:text-ink"
+            >How to Use</a
+          >
         </nav>
 
         <div class="flex items-center gap-3">
           <!-- Theme Toggle Button -->
-          <button 
-            id="theme-toggle" 
+          <button
+            id="theme-toggle"
             class="h-7 w-7 flex items-center justify-center rounded-sm border border-hairline bg-canvas hover:bg-canvas-soft-2 text-ink cursor-pointer focus:outline-none"
             aria-label="Toggle theme"
           >
             <span id="theme-toggle-icon" class="text-xs">🌙</span>
           </button>
 
-          <a 
-            href="#downloader" 
+          <a
+            href="#downloader"
             class="flex h-7 items-center rounded-sm bg-primary px-3 text-xs font-semibold text-on-primary transition-all hover:bg-neutral-800"
           >
             Get Started
@@ -109,34 +153,64 @@ const canonicalUrl = new URL(Astro.url.pathname, "https://freebulkimagedownloade
       <div class="mx-auto max-w-[1400px] px-4 sm:px-6 md:px-8">
         <div class="grid grid-cols-1 gap-12 md:grid-cols-4">
           <div class="flex flex-col gap-4">
-            <span class="font-mono text-xs font-semibold tracking-wider text-ink uppercase">Bulk Image Downloader</span>
+            <span
+              class="font-mono text-xs font-semibold tracking-wider text-ink uppercase"
+              >Bulk Image Downloader</span
+            >
             <p class="text-sm text-mute leading-relaxed max-w-[280px]">
-              A high-performance, private, client-side utility to download list of image URLs or scrape from web pages.
+              A high-performance, private, client-side utility to download list
+              of image URLs or scrape from web pages.
             </p>
           </div>
           <div>
-            <span class="font-mono text-xs font-semibold tracking-wider text-ink uppercase block mb-4">Product</span>
+            <span
+              class="font-mono text-xs font-semibold tracking-wider text-ink uppercase block mb-4"
+              >Product</span
+            >
             <ul class="flex flex-col gap-2 text-sm">
-              <li><a href="#downloader" class="transition-colors hover:text-ink">Online Tool</a></li>
-              <li><a href="#features" class="transition-colors hover:text-ink">Features</a></li>
-              <li><a href="#how-to-use" class="transition-colors hover:text-ink">Guides</a></li>
+              <li>
+                <a href="#downloader" class="transition-colors hover:text-ink"
+                  >Online Tool</a>
+              </li>
+              <li>
+                <a href="#features" class="transition-colors hover:text-ink"
+                  >Features</a>
+              </li>
+              <li>
+                <a href="#how-to-use" class="transition-colors hover:text-ink"
+                  >Guides</a>
+              </li>
             </ul>
           </div>
           <div>
-            <span class="font-mono text-xs font-semibold tracking-wider text-ink uppercase block mb-4">Legal & Privacy</span>
+            <span
+              class="font-mono text-xs font-semibold tracking-wider text-ink uppercase block mb-4"
+              >Legal & Privacy</span
+            >
             <ul class="flex flex-col gap-2 text-sm">
-              <li class="text-sm text-mute">100% Client-side. Images processed in browser. No logs.</li>
+              <li class="text-sm text-mute">
+                100% Client-side. Images processed in browser. No logs.
+              </li>
             </ul>
           </div>
           <div>
-            <span class="font-mono text-xs font-semibold tracking-wider text-ink uppercase block mb-4">About</span>
+            <span
+              class="font-mono text-xs font-semibold tracking-wider text-ink uppercase block mb-4"
+              >About</span
+            >
             <p class="text-sm text-mute leading-relaxed">
-              Created to provide developers and creators with a secure, restriction-free batch image download alternative.
+              Created to provide developers and creators with a secure,
+              restriction-free batch image download alternative.
             </p>
           </div>
         </div>
-        <div class="mt-16 flex flex-col items-center justify-between gap-4 border-t border-hairline pt-8 md:flex-row text-xs text-mute">
-          <span>&copy; {new Date().getFullYear()} freebulkimagedownloader.com. All rights reserved.</span>
+        <div
+          class="mt-16 flex flex-col items-center justify-between gap-4 border-t border-hairline pt-8 md:flex-row text-xs text-mute"
+        >
+          <span
+            >&copy; {new Date().getFullYear()} freebulkimagedownloader.com. All rights
+            reserved.</span
+          >
           <span class="flex items-center gap-2">
             ⚡ Powered by Astro & Tailwind CSS
           </span>
