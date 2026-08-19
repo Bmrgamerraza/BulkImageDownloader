@@ -1,0 +1,114 @@
+---
+// src/pages/about.astro
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="About Us - Free Bulk Image Downloader"
+  description="Learn about the philosophy and mission behind our free client-side Bulk Image Downloader. Fast, secure, and extension-free."
+  keywords="about bulk image downloader, client-side image downloader, secure bulk downloader"
+>
+  <!-- Hero Section -->
+  <section
+    class="relative overflow-hidden pt-12 pb-20 border-b border-hairline bg-canvas rounded-lg mb-12"
+  >
+    <div
+      class="absolute inset-0 -top-40 -left-40 h-[600px] w-[800px] mesh-gradient pointer-events-none"
+    >
+    </div>
+    <div
+      class="absolute right-0 top-0 h-[500px] w-[500px] mesh-gradient pointer-events-none"
+      style="opacity: 0.08;"
+    >
+    </div>
+
+    <div class="relative z-10 max-w-3xl mx-auto text-center px-4">
+      <span
+        class="inline-flex items-center gap-1.5 rounded-full bg-link-bg-soft px-3 py-1 text-xs font-semibold text-link mb-6"
+      >
+        💡 Our Philosophy
+      </span>
+      <h1
+        class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink mb-6 font-sans"
+      >
+        About Bulk Image Downloader
+      </h1>
+      <p
+        class="text-lg md:text-xl text-body mb-8 leading-relaxed max-w-2xl mx-auto"
+      >
+        A high-performance, private, client-side utility designed to simplify asset gathering for creators and developers worldwide.
+      </p>
+    </div>
+  </section>
+
+  <!-- Detailed content section -->
+  <section class="max-w-[900px] mx-auto mb-20">
+    <div class="bg-canvas border border-hairline rounded-lg p-6 sm:p-8 md:p-12 shadow-sm space-y-8">
+      <div>
+        <h2 class="text-2xl font-bold tracking-tight text-ink mb-4 font-sans">
+          Why we built this tool
+        </h2>
+        <p class="text-body leading-relaxed mb-4">
+          Finding and downloading multiple image assets for web development, design work, machine learning training, or content creation is often a repetitive and frustrating task. While browser extensions exist, they frequently request excessive permissions—such as the ability to read and change all your data on every website you visit.
+        </p>
+        <p class="text-body leading-relaxed">
+          We believed there had to be a better, safer, and faster way. We developed <strong>Bulk Image Downloader</strong> as a 100% client-side web application. It runs directly in your browser, keeping your workflow secure, private, and independent of browser extension stores.
+        </p>
+      </div>
+
+      <div class="border-t border-hairline pt-8">
+        <h2 class="text-2xl font-bold tracking-tight text-ink mb-6 font-sans">
+          Core values & design principles
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="border border-hairline rounded p-5 bg-canvas-soft-2">
+            <div class="text-2xl mb-3">🔒</div>
+            <h3 class="text-lg font-semibold text-ink mb-2">Privacy First</h3>
+            <p class="text-sm text-mute leading-relaxed">
+              We never upload your URLs, crawled pages, or downloaded images to any server. All processing, filtering, and ZIP generation happens directly inside your browser memory.
+            </p>
+          </div>
+          <div class="border border-hairline rounded p-5 bg-canvas-soft-2">
+            <div class="text-2xl mb-3">⚡</div>
+            <h3 class="text-lg font-semibold text-ink mb-2">High Performance</h3>
+            <p class="text-sm text-mute leading-relaxed">
+              Using modern browser APIs, we fetch, preview, and compress hundreds of images concurrently to save you time. No artifical limitations, no paywalls.
+            </p>
+          </div>
+          <div class="border border-hairline rounded p-5 bg-canvas-soft-2">
+            <div class="text-2xl mb-3">🎨</div>
+            <h3 class="text-lg font-semibold text-ink mb-2">Zero Bloat</h3>
+            <p class="text-sm text-mute leading-relaxed">
+              No software installations, no system extensions, and no tracking cookies. Just a clean, premium, and responsive user experience that gets out of your way.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-hairline pt-8">
+        <h2 class="text-2xl font-bold tracking-tight text-ink mb-4 font-sans">
+          How it works under the hood
+        </h2>
+        <p class="text-body leading-relaxed mb-4">
+          When you submit a URL list, our script fetches each image asynchronously. For webpage scraping, we utilize browser-native parsing or a secure serverless CORS proxy to retrieve HTML, extract layout elements, find image tags, and feed them into our interactive layout where you can sort and filter by size and type.
+        </p>
+        <p class="text-body leading-relaxed">
+          Finally, we compile your selected assets into a structured ZIP archive in-memory using highly-optimized JavaScript compression libraries, initiating a native download instantly.
+        </p>
+      </div>
+
+      <div class="border-t border-hairline pt-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div>
+          <h3 class="text-lg font-semibold text-ink mb-1">Have any suggestions or questions?</h3>
+          <p class="text-sm text-mute">We'd love to hear your feedback on how we can improve our utilities.</p>
+        </div>
+        <a
+          href="/contact"
+          class="rounded-pill bg-primary px-6 py-2.5 text-xs font-semibold text-on-primary hover:bg-neutral-800 transition-colors shrink-0"
+        >
+          Contact Support
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

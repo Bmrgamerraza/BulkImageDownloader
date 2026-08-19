@@ -1,0 +1,114 @@
+---
+// src/pages/privacy.astro
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="Privacy Policy - Free Bulk Image Downloader"
+  description="Privacy is our core feature. Read how we protect your data with 100% client-side processing. No logs, no image tracking."
+  keywords="privacy policy, secure bulk image downloader, private image scraping"
+>
+  <!-- Hero Section -->
+  <section
+    class="relative overflow-hidden pt-12 pb-20 border-b border-hairline bg-canvas rounded-lg mb-12"
+  >
+    <div
+      class="absolute inset-0 -top-40 -left-40 h-[600px] w-[800px] mesh-gradient pointer-events-none"
+    >
+    </div>
+    <div
+      class="absolute right-0 top-0 h-[500px] w-[500px] mesh-gradient pointer-events-none"
+      style="opacity: 0.08;"
+    >
+    </div>
+
+    <div class="relative z-10 max-w-3xl mx-auto text-center px-4">
+      <span
+        class="inline-flex items-center gap-1.5 rounded-full bg-link-bg-soft px-3 py-1 text-xs font-semibold text-link mb-6"
+      >
+        🛡️ Privacy First
+      </span>
+      <h1
+        class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink mb-6 font-sans"
+      >
+        Privacy Policy
+      </h1>
+      <p
+        class="text-lg md:text-xl text-body mb-8 leading-relaxed max-w-2xl mx-auto"
+      >
+        Last updated: August 19, 2026. We prioritize your digital privacy. All operations are run securely in your browser.
+      </p>
+    </div>
+  </section>
+
+  <!-- Detailed Policy -->
+  <section class="max-w-[900px] mx-auto mb-20">
+    <div class="bg-canvas border border-hairline rounded-lg p-6 sm:p-8 md:p-12 shadow-sm space-y-8">
+      <div>
+        <h2 class="text-2xl font-bold tracking-tight text-ink mb-4 font-sans">
+          1. 100% Client-Side Processing
+        </h2>
+        <p class="text-body leading-relaxed">
+          The core philosophy of <strong>Bulk Image Downloader</strong> is that your data belongs to you. Unlike traditional scrapers or converters that upload lists of URLs or files to remote backend servers for processing, our tool performs all extraction, filtering, styling, and compression (ZIP packaging) directly in your web browser. 
+        </p>
+      </div>
+
+      <div class="border-t border-hairline pt-8">
+        <h2 class="text-2xl font-bold tracking-tight text-ink mb-4 font-sans">
+          2. Serverless CORS Proxy Operations
+        </h2>
+        <p class="text-body leading-relaxed mb-4">
+          To scrape images from external websites, browser security standards (CORS) require web pages to request assets through headers. When direct browser scraping is blocked by CORS policy, we pass requests through a stateless serverless proxy endpoint.
+        </p>
+        <p class="text-body leading-relaxed">
+          <strong>How the proxy respects privacy:</strong>
+        </p>
+        <ul class="list-disc pl-6 space-y-2 text-body">
+          <li>The proxy simply relays the HTML data back to your browser tab; it does not store, log, or cache any scraped text, HTML content, or images.</li>
+          <li>We do not record your IP address or associate queries with personal identities.</li>
+          <li>No database is connected to the proxy. It operates entirely as an in-memory stream relay.</li>
+        </ul>
+      </div>
+
+      <div class="border-t border-hairline pt-8">
+        <h2 class="text-2xl font-bold tracking-tight text-ink mb-4 font-sans">
+          3. Local Storage & Preferences
+        </h2>
+        <p class="text-body leading-relaxed">
+          We use browser Local Storage solely to save your preference settings, such as your selected dark/light UI theme mode. No user tracking identifiers or personal cookies are stored, and no advertising trackers are used on this platform.
+        </p>
+      </div>
+
+      <div class="border-t border-hairline pt-8">
+        <h2 class="text-2xl font-bold tracking-tight text-ink mb-4 font-sans">
+          4. Security of Data
+        </h2>
+        <p class="text-body leading-relaxed">
+          Since our app runs in a standard sandbox tab, it cannot write to your system folders, read other browser tabs, or inject processes. The ZIP exports are compiled and generated in RAM and downloaded using standard HTML5 download triggers.
+        </p>
+      </div>
+
+      <div class="border-t border-hairline pt-8">
+        <h2 class="text-2xl font-bold tracking-tight text-ink mb-4 font-sans">
+          5. Changes to This Policy
+        </h2>
+        <p class="text-body leading-relaxed">
+          We may update our Privacy Policy from time to time to align with new features or standard browser guidelines. Any updates will be posted directly on this page with an updated modification date.
+        </p>
+      </div>
+
+      <div class="border-t border-hairline pt-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div>
+          <h3 class="text-lg font-semibold text-ink mb-1">Questions about our privacy configuration?</h3>
+          <p class="text-sm text-mute">Feel free to reach out to us at any time.</p>
+        </div>
+        <a
+          href="/contact"
+          class="rounded-pill bg-primary px-6 py-2.5 text-xs font-semibold text-on-primary hover:bg-neutral-800 transition-colors shrink-0"
+        >
+          Contact Us
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

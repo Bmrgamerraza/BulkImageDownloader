@@ -1,0 +1,122 @@
+---
+// src/pages/terms.astro
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="Terms & Conditions - Free Bulk Image Downloader"
+  description="Understand user responsibilities, copyright terms, and warranty disclaimers for using our free Bulk Image Downloader tool."
+  keywords="terms and conditions, user agreement, bulk downloader terms, copyright policy"
+>
+  <!-- Hero Section -->
+  <section
+    class="relative overflow-hidden pt-12 pb-20 border-b border-hairline bg-canvas rounded-lg mb-12"
+  >
+    <div
+      class="absolute inset-0 -top-40 -left-40 h-[600px] w-[800px] mesh-gradient pointer-events-none"
+    >
+    </div>
+    <div
+      class="absolute right-0 top-0 h-[500px] w-[500px] mesh-gradient pointer-events-none"
+      style="opacity: 0.08;"
+    >
+    </div>
+
+    <div class="relative z-10 max-w-3xl mx-auto text-center px-4">
+      <span
+        class="inline-flex items-center gap-1.5 rounded-full bg-link-bg-soft px-3 py-1 text-xs font-semibold text-link mb-6"
+      >
+        ⚖️ Terms & Guidelines
+      </span>
+      <h1
+        class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink mb-6 font-sans"
+      >
+        Terms & Conditions
+      </h1>
+      <p
+        class="text-lg md:text-xl text-body mb-8 leading-relaxed max-w-2xl mx-auto"
+      >
+        Last updated: August 19, 2026. Please read our guidelines on copyright, acceptable use, and tools responsibilities.
+      </p>
+    </div>
+  </section>
+
+  <!-- Detailed Terms -->
+  <section class="max-w-[900px] mx-auto mb-20">
+    <div class="bg-canvas border border-hairline rounded-lg p-6 sm:p-8 md:p-12 shadow-sm space-y-8">
+      <div>
+        <h2 class="text-2xl font-bold tracking-tight text-ink mb-4 font-sans">
+          1. Agreement to Terms
+        </h2>
+        <p class="text-body leading-relaxed">
+          By accessing or using <strong>Bulk Image Downloader</strong>, you agree to be bound by these Terms & Conditions. If you do not agree with any part of these terms, you are prohibited from using the service.
+        </p>
+      </div>
+
+      <div class="border-t border-hairline pt-8">
+        <h2 class="text-2xl font-bold tracking-tight text-ink mb-4 font-sans">
+          2. Intellectual Property & Copyright Compliance
+        </h2>
+        <p class="text-body leading-relaxed mb-4">
+          This downloader is a technical utility designed to fetch and package image assets directly within your browser. 
+        </p>
+        <p class="text-body leading-relaxed mb-4">
+          <strong>Your Responsibilities:</strong>
+        </p>
+        <ul class="list-disc pl-6 space-y-2 text-body">
+          <li>You are solely responsible for ensuring you have the legal right, license, or permission to download and use the images retrieved through this service.</li>
+          <li>We do not own, host, or license any of the images processed by this tool.</li>
+          <li>Downloading copyrighted material without authorization is a violation of intellectual property laws. We encourage users to respect creative ownership and copyright headers.</li>
+        </ul>
+      </div>
+
+      <div class="border-t border-hairline pt-8">
+        <h2 class="text-2xl font-bold tracking-tight text-ink mb-4 font-sans">
+          3. Acceptable Use Policy
+        </h2>
+        <p class="text-body leading-relaxed mb-4">
+          You agree to use this service only for lawful purposes. You must not:
+        </p>
+        <ul class="list-disc pl-6 space-y-2 text-body">
+          <li>Use the tool to systematically scrape websites in a manner that creates an excessive burden or violates the target website's Terms of Service.</li>
+          <li>Use the stateless CORS proxy to fetch illegal, malicious, or abusive payloads.</li>
+          <li>Attempt to disrupt the performance or integrity of our frontend application hosting.</li>
+        </ul>
+      </div>
+
+      <div class="border-t border-hairline pt-8">
+        <h2 class="text-2xl font-bold tracking-tight text-ink mb-4 font-sans">
+          4. Disclaimer of Warranties
+        </h2>
+        <blockquote class="border-l-4 border-warning bg-canvas-soft-2 p-4 text-xs italic font-medium my-4">
+          "The service is provided on an 'AS IS' and 'AS AVAILABLE' basis, without warranties of any kind."
+        </blockquote>
+        <p class="text-body leading-relaxed">
+          We do not guarantee that the downloader will be error-free, uninterrupted, or compatible with every target website. Because websites frequently update their layout, markup patterns, and CORS policies, certain images or domains may fail to load.
+        </p>
+      </div>
+
+      <div class="border-t border-hairline pt-8">
+        <h2 class="text-2xl font-bold tracking-tight text-ink mb-4 font-sans">
+          5. Limitation of Liability
+        </h2>
+        <p class="text-body leading-relaxed">
+          In no event shall Bulk Image Downloader, its developers, or contributors be held liable for any damages (including, without limitation, damages for loss of data, profit, copyright infringement claims, or bandwidth consumption charges) arising out of the use or inability to use this software utility.
+        </p>
+      </div>
+
+      <div class="border-t border-hairline pt-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div>
+          <h3 class="text-lg font-semibold text-ink mb-1">Need help clarifying acceptable use cases?</h3>
+          <p class="text-sm text-mute">Read our About page or reach out via our contact channels.</p>
+        </div>
+        <a
+          href="/about"
+          class="rounded-pill bg-primary px-6 py-2.5 text-xs font-semibold text-on-primary hover:bg-neutral-800 transition-colors shrink-0"
+        >
+          Learn More
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
