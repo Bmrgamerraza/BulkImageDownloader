@@ -1,11 +1,1127 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// src/pages/index.astro
+import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout>
-	<Welcome />
+  <!-- Hero Section with Decorative Atmospheric Mesh Gradient -->
+  <section class="relative overflow-hidden pt-12 pb-20 border-b border-hairline bg-canvas rounded-lg mb-12">
+    <!-- Mesh Gradient Backdrop -->
+    <div class="absolute inset-0 -top-40 -left-40 h-[600px] w-[800px] mesh-gradient pointer-events-none"></div>
+    <div class="absolute right-0 top-0 h-[500px] w-[500px] mesh-gradient pointer-events-none" style="opacity: 0.08;"></div>
+
+    <div class="relative z-10 max-w-3xl mx-auto text-center px-4">
+      <span class="inline-flex items-center gap-1.5 rounded-full bg-link-bg-soft px-3 py-1 text-xs font-semibold text-link mb-6">
+        ⚡ 100% Client-Side & Secure
+      </span>
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink mb-6 font-sans">
+        Download images in bulk, instantly.
+      </h1>
+      <p class="text-lg md:text-xl text-body mb-8 leading-relaxed max-w-2xl mx-auto">
+        Paste a list of image URLs or extract images from any webpage. Package them instantly into a single ZIP file without exhausting your server bandwidth or compromising privacy.
+      </p>
+      
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#downloader" class="rounded-pill bg-primary px-6 py-3 text-sm font-medium text-on-primary hover:bg-neutral-800 transition-colors shadow-sm">
+          Start Downloading
+        </a>
+        <a href="#features" class="rounded-pill border border-hairline bg-canvas px-6 py-3 text-sm font-medium text-body hover:bg-canvas-soft-2 transition-colors">
+          Learn More
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Downloader Workspace -->
+  <section id="downloader" class="scroll-mt-20 max-w-[1000px] mx-auto mb-16">
+    <div class="bg-canvas border border-hairline rounded-lg shadow-sm overflow-hidden">
+      <!-- Tabs Header -->
+      <div class="flex border-b border-hairline bg-canvas-soft">
+        <button 
+          id="tab-direct"
+          class="flex-1 py-4 px-6 text-center text-sm font-semibold border-b-2 border-primary text-ink transition-colors hover:text-ink cursor-pointer focus:outline-none"
+        >
+          Paste URL List
+        </button>
+        <button 
+          id="tab-scraper"
+          class="flex-1 py-4 px-6 text-center text-sm font-semibold border-b-2 border-transparent text-body hover:text-ink transition-colors cursor-pointer focus:outline-none"
+        >
+          Extract From Webpage
+        </button>
+      </div>
+
+      <!-- Tool Body -->
+      <div class="p-6 md:p-8">
+        <!-- Hints / Instructions -->
+        <div class="flex items-start gap-3 rounded-md bg-canvas-soft-2 p-4 border border-hairline mb-6">
+          <span class="text-base">💡</span>
+          <div class="text-sm text-body" id="instruction-text">
+            Enter direct image URLs (one per line). Supports WebP, PNG, JPG, GIF, SVG, AVIF, and ICO formats. Duplicates are automatically removed.
+          </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="mb-6">
+          <div class="flex justify-between items-center mb-2">
+            <label for="urls-input" class="text-sm font-semibold text-ink" id="input-label">Image URLs</label>
+            <div id="url-stats" class="text-xs text-mute flex gap-3 select-none">
+              <span>Total Links: <strong id="stat-pasted" class="text-ink">0</strong></span>
+              <span>Unique: <strong id="stat-unique" class="text-success">0</strong></span>
+              <span>Duplicates: <strong id="stat-duplicates" class="text-warning">0</strong></span>
+            </div>
+          </div>
+
+          <textarea 
+            id="urls-input" 
+            rows="8"
+            class="w-full rounded-sm border border-hairline bg-canvas p-4 text-sm text-ink placeholder-mute focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors resize-y font-mono"
+            placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.png"
+          ></textarea>
+        </div>
+
+        <!-- Action Bar -->
+        <div class="flex flex-col sm:flex-row gap-4 items-center justify-between">
+          <button 
+            id="btn-clear" 
+            class="w-full sm:w-auto text-sm font-medium text-body hover:text-ink transition-colors py-2 px-4 cursor-pointer"
+          >
+            Clear Inputs
+          </button>
+          
+          <button 
+            id="btn-action" 
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-pill bg-primary px-8 py-3 text-sm font-semibold text-on-primary hover:bg-neutral-800 transition-colors shadow-sm cursor-pointer disabled:opacity-50 disabled:pointer-events-none"
+          >
+            <span id="btn-text">Load & Analyze URLs</span>
+            <span id="btn-spinner" class="hidden h-4 w-4 animate-spin rounded-full border-2 border-on-primary border-t-transparent"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download Status & Statistics Board (Hidden by default) -->
+  <section id="status-section" class="hidden max-w-[1000px] mx-auto mb-12">
+    <div class="bg-canvas border border-hairline rounded-lg shadow-sm p-6 md:p-8">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-lg font-bold text-ink flex items-center gap-2">
+          ⚡ Downloader Engine Status
+        </h2>
+        <span id="progress-percent" class="text-sm font-mono font-semibold bg-canvas-soft border border-hairline rounded-sm px-2 py-0.5 text-ink">0%</span>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="w-full bg-canvas-soft-2 border border-hairline rounded-full h-3 overflow-hidden mb-6">
+        <div id="progress-bar-fill" class="bg-primary h-full w-0 transition-all duration-300"></div>
+      </div>
+
+      <!-- Real-Time Metrics Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+        <div class="bg-canvas-soft border border-hairline rounded-sm p-3 text-center">
+          <span class="block text-xs font-medium text-mute mb-1">Queue Total</span>
+          <span id="metric-total" class="text-lg font-bold text-ink">0</span>
+        </div>
+        <div class="bg-canvas-soft border border-hairline rounded-sm p-3 text-center">
+          <span class="block text-xs font-medium text-mute mb-1">Success</span>
+          <span id="metric-success" class="text-lg font-bold text-success">0</span>
+        </div>
+        <div class="bg-canvas-soft border border-hairline rounded-sm p-3 text-center">
+          <span class="block text-xs font-medium text-mute mb-1">Failed</span>
+          <span id="metric-failed" class="text-lg font-bold text-error">0</span>
+        </div>
+        <div class="bg-canvas-soft border border-hairline rounded-sm p-3 text-center">
+          <span class="block text-xs font-medium text-mute mb-1">Processed Size</span>
+          <span id="metric-size" class="text-lg font-bold text-ink">0 B</span>
+        </div>
+        <div class="bg-canvas-soft border border-hairline rounded-sm p-3 text-center">
+          <span class="block text-xs font-medium text-mute mb-1">Speed</span>
+          <span id="metric-speed" class="text-lg font-bold text-ink">0 KB/s</span>
+        </div>
+        <div class="bg-canvas-soft border border-hairline rounded-sm p-3 text-center">
+          <span class="block text-xs font-medium text-mute mb-1">Remaining</span>
+          <span id="metric-remaining" class="text-lg font-bold text-ink">--:--</span>
+        </div>
+      </div>
+
+      <!-- Console Log Messages -->
+      <div class="border border-hairline rounded-sm">
+        <div class="flex items-center justify-between bg-canvas-soft-2 px-4 py-2 border-b border-hairline text-xs font-mono text-body">
+          <span>CONSOLE LOG OUTPUT</span>
+          <button id="btn-toggle-console" class="hover:text-ink cursor-pointer">Minimize</button>
+        </div>
+        <div id="console-logs" class="h-32 overflow-y-auto bg-primary text-green-400 p-4 font-mono text-[11px] leading-relaxed scrollbar-thin">
+          <div class="text-mute">[Engine Idle] Paste URLs or extract a webpage above to initialize downloading.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Grid & ZIP Generation Panel (Hidden by default) -->
+  <section id="results-section" class="hidden max-w-[1200px] mx-auto mb-16 scroll-mt-20">
+    <div class="flex flex-col gap-6">
+      
+      <!-- Filter Bar and Action Header -->
+      <div class="flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between border-b border-hairline pb-6">
+        <div>
+          <h2 class="text-xl font-bold text-ink mb-1">Discovered Images</h2>
+          <p class="text-sm text-body">Select images to bundle and customize your download settings.</p>
+        </div>
+        
+        <div class="flex flex-wrap items-center gap-3">
+          <!-- Select All / Deselect All -->
+          <button id="btn-select-all" class="text-xs font-semibold px-3 py-1.5 rounded-sm bg-canvas border border-hairline hover:bg-canvas-soft transition-colors cursor-pointer">
+            Select All
+          </button>
+          <button id="btn-deselect-all" class="text-xs font-semibold px-3 py-1.5 rounded-sm bg-canvas border border-hairline hover:bg-canvas-soft transition-colors cursor-pointer">
+            Deselect All
+          </button>
+        </div>
+      </div>
+
+      <!-- Format Filter Tabs -->
+      <div class="flex gap-2 border-b border-hairline overflow-x-auto pb-px">
+        <button data-filter="all" class="filter-tab px-4 py-2 text-sm font-semibold border-b-2 border-primary text-ink focus:outline-none cursor-pointer">
+          All Formats (<span id="count-all">0</span>)
+        </button>
+        <button data-filter="jpg" class="filter-tab px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-body hover:text-ink focus:outline-none cursor-pointer">
+          JPG (<span id="count-jpg">0</span>)
+        </button>
+        <button data-filter="png" class="filter-tab px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-body hover:text-ink focus:outline-none cursor-pointer">
+          PNG (<span id="count-png">0</span>)
+        </button>
+        <button data-filter="webp" class="filter-tab px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-body hover:text-ink focus:outline-none cursor-pointer">
+          WEBP (<span id="count-webp">0</span>)
+        </button>
+        <button data-filter="svg" class="filter-tab px-4 py-2 text-sm font-semibold border-b-2 border-transparent text-body hover:text-ink focus:outline-none cursor-pointer">
+          SVG (<span id="count-svg">0</span>)
+        </button>
+      </div>
+
+      <!-- Custom Settings Card -->
+      <div class="bg-canvas border border-hairline rounded-lg p-6 flex flex-col md:flex-row gap-6 items-end justify-between shadow-sm">
+        <div class="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="zip-filename" class="block text-xs font-bold text-ink uppercase mb-2">ZIP Filename</label>
+            <input 
+              type="text" 
+              id="zip-filename" 
+              class="w-full h-10 rounded-sm border border-hairline bg-canvas px-4 text-sm text-ink placeholder-mute focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
+              value="bulk-images"
+              placeholder="bulk-images"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-ink uppercase mb-2">Download Mode</label>
+            <div class="flex gap-2">
+              <label class="flex-1 flex h-10 items-center justify-between border border-hairline rounded-sm px-3 text-sm cursor-pointer select-none bg-canvas hover:bg-canvas-soft">
+                <span class="font-medium text-ink">ZIP Package</span>
+                <input type="radio" name="download-mode" value="zip" checked class="accent-primary" />
+              </label>
+              <label class="flex-1 flex h-10 items-center justify-between border border-hairline rounded-sm px-3 text-sm cursor-pointer select-none bg-canvas hover:bg-canvas-soft">
+                <span class="font-medium text-ink">Individual Files</span>
+                <input type="radio" name="download-mode" value="individual" class="accent-primary" />
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <button 
+          id="btn-download-selected" 
+          class="w-full md:w-auto h-12 inline-flex items-center justify-center gap-2 rounded-pill bg-primary px-8 text-sm font-semibold text-on-primary hover:bg-neutral-800 transition-colors shadow-sm cursor-pointer disabled:opacity-50 disabled:pointer-events-none"
+        >
+          ⬇️ Download Selected (<span id="download-count">0</span>)
+        </button>
+      </div>
+
+      <!-- Thumbnail Grid -->
+      <div id="image-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <!-- Dynamically populated via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Detailed Feature Sections (Vercel-Inspired Layout) -->
+  <section id="features" class="max-w-[1200px] mx-auto border-t border-hairline pt-20 mb-16 scroll-mt-20">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <span class="font-mono text-xs text-mute font-semibold uppercase tracking-wider mb-3 block">Engineered for Performance</span>
+      <h2 class="text-3xl font-bold tracking-tight text-ink mb-4 font-sans">Why Bulk Image Downloader is better.</h2>
+      <p class="text-sm text-body leading-relaxed">
+        We examined current batch downloading utilities (including competitor sites like bulkimagedownloader.in) and re-engineered the process to solve privacy bottlenecks, loading delays, and CORS blocks.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="bg-canvas border border-hairline rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+        <div class="h-10 w-10 flex items-center justify-center bg-link-bg-soft rounded-sm text-link text-lg font-bold mb-4">🔒</div>
+        <h3 class="text-lg font-bold text-ink mb-2">100% Client-Side Privacy</h3>
+        <p class="text-sm text-body leading-relaxed">
+          Competitors fetch and compile your images on their servers. We do all fetching and ZIP packaging locally inside your browser cache. Your links and image downloads remain completely private.
+        </p>
+      </div>
+
+      <div class="bg-canvas border border-hairline rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+        <div class="h-10 w-10 flex items-center justify-center bg-cyan-soft rounded-sm text-cyan-deep text-lg font-bold mb-4">🌐</div>
+        <h3 class="text-lg font-bold text-ink mb-2">Transparent CORS Proxy Fallback</h3>
+        <p class="text-sm text-body leading-relaxed">
+          Downloading directly from foreign domains normally triggers CORS browser security blocks. Our engine automatically redirects CORS-blocked images through a secure server proxy to guarantee a 100% download success rate.
+        </p>
+      </div>
+
+      <div class="bg-canvas border border-hairline rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+        <div class="h-10 w-10 flex items-center justify-center bg-violet-soft rounded-sm text-violet-deep text-lg font-bold mb-4">🖼️</div>
+        <h3 class="text-lg font-bold text-ink mb-2">Live Thumbnail Preview Grid</h3>
+        <p class="text-sm text-body leading-relaxed">
+          Don't download blind. Our interactive grid shows full thumbnail previews, format extensions, size calculations, and resolution details before you trigger the final download.
+        </p>
+      </div>
+
+      <div class="bg-canvas border border-hairline rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+        <div class="h-10 w-10 flex items-center justify-center bg-warning-soft rounded-sm text-warning-deep text-lg font-bold mb-4">🎛️</div>
+        <h3 class="text-lg font-bold text-ink mb-2">Fine-Grained Filtering</h3>
+        <p class="text-sm text-body leading-relaxed">
+          Easily deselect icons, spacers, or duplicate assets. Use the format filter tabs to view and select only specific file extensions (PNG, JPG, WebP, SVG) in a single click.
+        </p>
+      </div>
+
+      <div class="bg-canvas border border-hairline rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+        <div class="h-10 w-10 flex items-center justify-center bg-error-soft rounded-sm text-error-deep text-lg font-bold mb-4">⚡</div>
+        <h3 class="text-lg font-bold text-ink mb-2">Speed & Time Estimator</h3>
+        <p class="text-sm text-body leading-relaxed">
+          Our downloading queue processes up to 10 concurrent requests. Live metrics display average download speed, processing bandwidth, and accurate time-to-completion countdowns.
+        </p>
+      </div>
+
+      <div class="bg-canvas border border-hairline rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+        <div class="h-10 w-10 flex items-center justify-center bg-neutral-200 rounded-sm text-ink text-lg font-bold mb-4">🕷️</div>
+        <h3 class="text-lg font-bold text-ink mb-2">Deep Webpage Extraction</h3>
+        <p class="text-sm text-body leading-relaxed">
+          Give us a single URL. We inspect image elements, responsive srcset tags, inline CSS background declarations, and direct anchor links to scrape every possible image asset.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step by Step How to Use -->
+  <section id="how-to-use" class="max-w-[800px] mx-auto border-t border-hairline pt-20 mb-20 scroll-mt-20">
+    <div class="text-center mb-12">
+      <span class="font-mono text-xs text-mute font-semibold uppercase tracking-wider mb-3 block">Simple Workflow</span>
+      <h2 class="text-3xl font-bold tracking-tight text-ink font-sans">How to use the bulk downloader.</h2>
+    </div>
+
+    <ol class="space-y-6">
+      <li class="flex gap-4 items-start bg-canvas border border-hairline rounded-md p-6 shadow-sm">
+        <span class="h-8 w-8 shrink-0 flex items-center justify-center rounded-full bg-primary text-sm font-bold text-on-primary">1</span>
+        <div>
+          <h4 class="text-base font-semibold text-ink mb-1">Paste Links or Enter Webpage</h4>
+          <p class="text-sm text-body leading-relaxed">
+            Select the direct link option to paste custom URLs. Alternatively, select the Webpage Extractor tab and paste a target website URL (e.g. <code>https://unsplash.com</code>).
+          </p>
+        </div>
+      </li>
+      <li class="flex gap-4 items-start bg-canvas border border-hairline rounded-md p-6 shadow-sm">
+        <span class="h-8 w-8 shrink-0 flex items-center justify-center rounded-full bg-primary text-sm font-bold text-on-primary">2</span>
+        <div>
+          <h4 class="text-base font-semibold text-ink mb-1">Analyze and Preview</h4>
+          <p class="text-sm text-body leading-relaxed">
+            Click <strong>Load & Analyze URLs</strong>. The system will process your query, identify the images, and load them into the interactive preview grid.
+          </p>
+        </div>
+      </li>
+      <li class="flex gap-4 items-start bg-canvas border border-hairline rounded-md p-6 shadow-sm">
+        <span class="h-8 w-8 shrink-0 flex items-center justify-center rounded-full bg-primary text-sm font-bold text-on-primary">3</span>
+        <div>
+          <h4 class="text-base font-semibold text-ink mb-1">Filter, Customize and Download</h4>
+          <p class="text-sm text-body leading-relaxed">
+            Review the images, deselect any unwanted icons, specify a custom ZIP name, and click <strong>Download Selected</strong>. Watch the real-time download bar finish, and your files are saved.
+          </p>
+        </div>
+      </li>
+    </ol>
+  </section>
 </Layout>
+
+<script>
+  import JSZip from "jszip";
+
+  // State Management
+  let activeTab: "direct" | "scraper" = "direct";
+  let parsedUrls: string[] = [];
+  let discoveredImages: Array<{
+    id: string;
+    url: string;
+    selected: boolean;
+    format: string;
+    status: "pending" | "downloading" | "success" | "failed";
+    size: number | null;
+    dimensions: string | null;
+    blob: Blob | null;
+  }> = [];
+  
+  let downloadInProgress = false;
+  let activeFilter = "all";
+
+  // DOM Elements
+  const tabDirect = document.getElementById("tab-direct") as HTMLButtonElement;
+  const tabScraper = document.getElementById("tab-scraper") as HTMLButtonElement;
+  const urlsInput = document.getElementById("urls-input") as HTMLTextAreaElement;
+  const inputLabel = document.getElementById("input-label") as HTMLLabelElement;
+  const instructionText = document.getElementById("instruction-text") as HTMLDivElement;
+  const btnAction = document.getElementById("btn-action") as HTMLButtonElement;
+  const btnText = document.getElementById("btn-text") as HTMLSpanElement;
+  const btnSpinner = document.getElementById("btn-spinner") as HTMLSpanElement;
+  const btnClear = document.getElementById("btn-clear") as HTMLButtonElement;
+  const urlStats = document.getElementById("url-stats") as HTMLDivElement;
+  
+  const statPasted = document.getElementById("stat-pasted") as HTMLElement;
+  const statUnique = document.getElementById("stat-unique") as HTMLElement;
+  const statDuplicates = document.getElementById("stat-duplicates") as HTMLElement;
+
+  const statusSection = document.getElementById("status-section") as HTMLElement;
+  const progressPercent = document.getElementById("progress-percent") as HTMLElement;
+  const progressBarFill = document.getElementById("progress-bar-fill") as HTMLElement;
+  const consoleLogs = document.getElementById("console-logs") as HTMLDivElement;
+  const btnToggleConsole = document.getElementById("btn-toggle-console") as HTMLButtonElement;
+  
+  const metricTotal = document.getElementById("metric-total") as HTMLElement;
+  const metricSuccess = document.getElementById("metric-success") as HTMLElement;
+  const metricFailed = document.getElementById("metric-failed") as HTMLElement;
+  const metricSize = document.getElementById("metric-size") as HTMLElement;
+  const metricSpeed = document.getElementById("metric-speed") as HTMLElement;
+  const metricRemaining = document.getElementById("metric-remaining") as HTMLElement;
+
+  const resultsSection = document.getElementById("results-section") as HTMLElement;
+  const imageGrid = document.getElementById("image-grid") as HTMLDivElement;
+  const btnSelectAll = document.getElementById("btn-select-all") as HTMLButtonElement;
+  const btnDeselectAll = document.getElementById("btn-deselect-all") as HTMLButtonElement;
+  const downloadCount = document.getElementById("download-count") as HTMLElement;
+  const btnDownloadSelected = document.getElementById("btn-download-selected") as HTMLButtonElement;
+  const zipFilenameInput = document.getElementById("zip-filename") as HTMLInputElement;
+
+  const countAll = document.getElementById("count-all") as HTMLElement;
+  const countJpg = document.getElementById("count-jpg") as HTMLElement;
+  const countPng = document.getElementById("count-png") as HTMLElement;
+  const countWebp = document.getElementById("count-webp") as HTMLElement;
+  const countSvg = document.getElementById("count-svg") as HTMLElement;
+
+  // Initialize
+  initEventListeners();
+  updateUrlStats();
+
+  function initEventListeners() {
+    // Tab switching
+    tabDirect.addEventListener("click", () => switchTab("direct"));
+    tabScraper.addEventListener("click", () => switchTab("scraper"));
+
+    // Real-time URL parsing
+    urlsInput.addEventListener("input", updateUrlStats);
+    urlsInput.addEventListener("paste", handlePaste);
+
+    // Buttons
+    btnClear.addEventListener("click", clearInputs);
+    btnAction.addEventListener("click", handleActionClick);
+    btnSelectAll.addEventListener("click", () => setAllSelection(true));
+    btnDeselectAll.addEventListener("click", () => setAllSelection(false));
+    btnDownloadSelected.addEventListener("click", handleDownloadTrigger);
+
+    // Minimize console log
+    btnToggleConsole.addEventListener("click", () => {
+      if (consoleLogs.classList.contains("hidden")) {
+        consoleLogs.classList.remove("hidden");
+        btnToggleConsole.innerText = "Minimize";
+      } else {
+        consoleLogs.classList.add("hidden");
+        btnToggleConsole.innerText = "Maximize";
+      }
+    });
+
+    // Format Filter click events
+    document.querySelectorAll(".filter-tab").forEach(tab => {
+      tab.addEventListener("click", (e) => {
+        const filter = (e.currentTarget as HTMLButtonElement).dataset.filter || "all";
+        setFilter(filter);
+      });
+    });
+  }
+
+  // Switch between tabs
+  function switchTab(tab: "direct" | "scraper") {
+    if (tab === activeTab || downloadInProgress) return;
+    activeTab = tab;
+
+    if (activeTab === "direct") {
+      tabDirect.classList.add("border-primary", "text-ink");
+      tabDirect.classList.remove("border-transparent", "text-body");
+      tabScraper.classList.add("border-transparent", "text-body");
+      tabScraper.classList.remove("border-primary", "text-ink");
+      
+      inputLabel.innerText = "Image URLs";
+      urlsInput.placeholder = "https://example.com/image1.jpg\nhttps://example.com/image2.png";
+      instructionText.innerText = "Enter direct image URLs (one per line). Supports WebP, PNG, JPG, GIF, SVG, AVIF, and ICO formats. Duplicates are automatically removed.";
+      btnText.innerText = "Load & Analyze URLs";
+      urlStats.classList.remove("invisible");
+    } else {
+      tabScraper.classList.add("border-primary", "text-ink");
+      tabScraper.classList.remove("border-transparent", "text-body");
+      tabDirect.classList.add("border-transparent", "text-body");
+      tabDirect.classList.remove("border-primary", "text-ink");
+      
+      inputLabel.innerText = "Webpage URL";
+      urlsInput.placeholder = "https://example.com";
+      instructionText.innerText = "Enter a single webpage URL to scan. Our extraction engine will retrieve all absolute image targets, inline CSS background sources, and direct images linked in anchor tags.";
+      btnText.innerText = "Extract Webpage Images";
+      urlStats.classList.add("invisible");
+    }
+
+    clearInputs();
+  }
+
+  // Clean pasted clipboard content and normalize it to a clean one-per-line list
+  function handlePaste(e: ClipboardEvent) {
+    try {
+      const pasted = (e.clipboardData || (window as any).clipboardData).getData("text");
+      if (!pasted) return;
+
+      const parsed = extractUrls(pasted);
+      if (parsed.length > 0) {
+        e.preventDefault();
+        
+        if (activeTab === "direct") {
+          urlsInput.value = parsed.join("\n");
+        } else {
+          urlsInput.value = parsed[0]; // Take only the first valid URL for scraping
+        }
+        updateUrlStats();
+      }
+    } catch (err) {
+      // Allow default behavior on parsing failure
+    }
+  }
+
+  // Clean URLs list from string
+  function extractUrls(text: string): string[] {
+    const urls: string[] = [];
+    const lower = text.toLowerCase();
+    let i = 0;
+
+    while (true) {
+      const idx = lower.indexOf("http", i);
+      if (idx === -1) break;
+      
+      const next = lower.indexOf("http", idx + 1);
+      let candidate = next === -1 ? text.substring(idx) : text.substring(idx, next);
+      
+      candidate = candidate.trim().split(/\s+/)[0];
+      candidate = candidate.replace(/[\|,;"'<>\)\(\[\]]+$/g, "");
+      candidate = candidate.replace(/^[\|,;"'<>\(\)\[\]]+/g, "");
+
+      if (/^https?:\/\//i.test(candidate)) {
+        urls.push(candidate);
+      }
+      i = idx + 4;
+    }
+
+    return urls;
+  }
+
+  function updateUrlStats() {
+    const raw = urlsInput.value.trim();
+    if (activeTab === "scraper") return;
+
+    let allUrls = extractUrls(raw);
+    if (allUrls.length === 0 && raw.length > 0) {
+      allUrls = raw.split("\n").map(u => u.trim()).filter(u => u);
+    }
+
+    const uniqueUrls = [...new Set(allUrls)];
+    
+    statPasted.innerText = allUrls.length.toString();
+    statUnique.innerText = uniqueUrls.length.toString();
+    statDuplicates.innerText = (allUrls.length - uniqueUrls.length).toString();
+    
+    parsedUrls = uniqueUrls;
+  }
+
+  function clearInputs() {
+    urlsInput.value = "";
+    statPasted.innerText = "0";
+    statUnique.innerText = "0";
+    statDuplicates.innerText = "0";
+    parsedUrls = [];
+    discoveredImages = [];
+    resultsSection.classList.add("hidden");
+    statusSection.classList.add("hidden");
+  }
+
+  function logToConsole(message: string, type: "info" | "success" | "error" = "info") {
+    const logEl = document.createElement("div");
+    let colorClass = "text-green-400";
+    if (type === "success") colorClass = "text-blue-400";
+    if (type === "error") colorClass = "text-red-400";
+
+    const timestamp = new Date().toLocaleTimeString();
+    logEl.innerHTML = `<span class="text-mute">[${timestamp}]</span> <span class="${colorClass}">${escapeHtml(message)}</span>`;
+    consoleLogs.appendChild(logEl);
+    consoleLogs.scrollTop = consoleLogs.scrollHeight;
+  }
+
+  function escapeHtml(unsafe: string): string {
+    return unsafe
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  // Load URLs or call Scraper API
+  async function handleActionClick() {
+    if (downloadInProgress) return;
+    
+    if (activeTab === "direct") {
+      updateUrlStats();
+      if (parsedUrls.length === 0) {
+        alert("Please enter at least one URL");
+        return;
+      }
+      
+      logToConsole(`Analyzing ${parsedUrls.length} direct image URLs...`, "info");
+      loadDirectUrls(parsedUrls);
+    } else {
+      const url = urlsInput.value.trim();
+      if (!url || !/^https?:\/\//i.test(url)) {
+        alert("Please enter a valid webpage URL starting with http:// or https://");
+        return;
+      }
+      
+      await runWebpageScraper(url);
+    }
+  }
+
+  // Populates the grid with direct user urls
+  function loadDirectUrls(urls: string[]) {
+    discoveredImages = urls.map((url, index) => {
+      const extension = getFileExtension(url);
+      return {
+        id: `img-${index}`,
+        url: url,
+        selected: true,
+        format: extension,
+        status: "pending" as const,
+        size: null,
+        dimensions: null,
+        blob: null
+      };
+    });
+
+    renderImageGrid();
+    resultsSection.classList.remove("hidden");
+    // Scroll to results section smoothly
+    resultsSection.scrollIntoView({ behavior: "smooth" });
+    logToConsole(`Successfully loaded ${discoveredImages.length} images into grid. Select which ones to bundle and click download.`, "success");
+  }
+
+  // Calls API endpoint to scrape urls
+  async function runWebpageScraper(targetUrl: string) {
+    toggleLoadingState(true);
+    logToConsole(`Requesting server-side image extraction for webpage: ${targetUrl}...`, "info");
+    
+    try {
+      const res = await fetch("/api/extract", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: targetUrl })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || data.error) {
+        throw new Error(data.error || "Failed to extract images");
+      }
+
+      const images = data.images || [];
+      if (images.length === 0) {
+        logToConsole("Extraction complete: No image assets found on target webpage.", "error");
+        alert("No images could be extracted from this webpage. Make sure the URL is correct and the site contains standard img elements.");
+        toggleLoadingState(false);
+        return;
+      }
+
+      logToConsole(`Successfully extracted ${images.length} images from webpage!`, "success");
+      
+      discoveredImages = images.map((url: string, index: number) => {
+        const extension = getFileExtension(url);
+        return {
+          id: `img-${index}`,
+          url: url,
+          selected: true,
+          format: extension,
+          status: "pending" as const,
+          size: null,
+          dimensions: null,
+          blob: null
+        };
+      });
+
+      renderImageGrid();
+      resultsSection.classList.remove("hidden");
+      resultsSection.scrollIntoView({ behavior: "smooth" });
+    } catch (e: any) {
+      logToConsole(`Scraper Error: ${e.message}`, "error");
+      alert(`Failed to extract images: ${e.message}`);
+    } finally {
+      toggleLoadingState(false);
+    }
+  }
+
+  function getFileExtension(url: string): string {
+    try {
+      const pathname = new URL(url).pathname;
+      const match = pathname.match(/\.([a-z0-9]+)(?:[\?#]|$)/i);
+      return match ? match[1].toLowerCase() : "unknown";
+    } catch (_) {
+      return "unknown";
+    }
+  }
+
+  function toggleLoadingState(loading: boolean) {
+    if (loading) {
+      btnAction.disabled = true;
+      btnSpinner.classList.remove("hidden");
+      btnText.innerText = "Processing...";
+    } else {
+      btnAction.disabled = false;
+      btnSpinner.classList.add("hidden");
+      btnText.innerText = activeTab === "direct" ? "Load & Analyze URLs" : "Extract Webpage Images";
+    }
+  }
+
+  function renderImageGrid() {
+    imageGrid.innerHTML = "";
+    
+    // Calculate counts per format
+    const formatCounts = { all: 0, jpg: 0, png: 0, webp: 0, svg: 0 };
+    discoveredImages.forEach(img => {
+      formatCounts.all++;
+      const fmt = img.format;
+      if (["jpg", "jpeg"].includes(fmt)) formatCounts.jpg++;
+      else if (fmt === "png") formatCounts.png++;
+      else if (fmt === "webp") formatCounts.webp++;
+      else if (fmt === "svg") formatCounts.svg++;
+    });
+
+    // Update filter counts in UI
+    countAll.innerText = formatCounts.all.toString();
+    countJpg.innerText = formatCounts.jpg.toString();
+    countPng.innerText = formatCounts.png.toString();
+    countWebp.innerText = formatCounts.webp.toString();
+    countSvg.innerText = formatCounts.svg.toString();
+
+    // Filter images
+    const filteredImages = discoveredImages.filter(img => {
+      if (activeFilter === "all") return true;
+      if (activeFilter === "jpg") return ["jpg", "jpeg"].includes(img.format);
+      return img.format === activeFilter;
+    });
+
+    if (filteredImages.length === 0) {
+      imageGrid.innerHTML = `
+        <div class="col-span-full text-center py-12 border border-dashed border-hairline rounded-md bg-canvas-soft">
+          <p class="text-sm text-mute">No images match the selected format filter.</p>
+        </div>
+      `;
+      updateSelectionCounts();
+      return;
+    }
+
+    filteredImages.forEach(img => {
+      const card = document.createElement("div");
+      card.id = `card-${img.id}`;
+      card.className = `group relative aspect-square bg-canvas-soft border rounded-sm overflow-hidden flex flex-col justify-between transition-all ${
+        img.selected ? "border-primary subtle-shadow" : "border-hairline opacity-60"
+      }`;
+
+      // Checkbox container
+      const checkboxWrapper = document.createElement("div");
+      checkboxWrapper.className = "absolute top-2 left-2 z-20 h-5 w-5 flex items-center justify-center bg-canvas/80 backdrop-blur-md border border-hairline rounded-xs";
+      
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = img.selected;
+      checkbox.className = "accent-primary cursor-pointer h-3.5 w-3.5";
+      checkbox.addEventListener("change", (e) => {
+        img.selected = (e.target as HTMLInputElement).checked;
+        if (img.selected) {
+          card.classList.add("border-primary", "subtle-shadow");
+          card.classList.remove("border-hairline", "opacity-60");
+        } else {
+          card.classList.remove("border-primary", "subtle-shadow");
+          card.classList.add("border-hairline", "opacity-60");
+        }
+        updateSelectionCounts();
+      });
+
+      checkboxWrapper.appendChild(checkbox);
+      card.appendChild(checkboxWrapper);
+
+      // Loading Status Badge
+      const statusBadge = document.createElement("div");
+      statusBadge.id = `status-${img.id}`;
+      statusBadge.className = "absolute top-2 right-2 z-20 px-2 py-0.5 rounded-xs text-[9px] font-mono font-bold bg-canvas/80 border border-hairline tracking-wider text-body";
+      statusBadge.innerText = img.status.toUpperCase();
+      card.appendChild(statusBadge);
+
+      // Image Preview (Hidden canvas or lazy img)
+      const previewWrapper = document.createElement("div");
+      previewWrapper.className = "flex-1 w-full bg-canvas-soft-2 flex items-center justify-center relative overflow-hidden group-hover:scale-[1.02] transition-transform duration-300";
+      
+      const previewImg = document.createElement("img");
+      previewImg.alt = "Extracted thumbnail";
+      // Safe proxy thumbnail load if needed, but direct load works fine for UI thumbnails
+      previewImg.src = img.url;
+      previewImg.loading = "lazy";
+      previewImg.className = "object-contain w-full h-full p-2";
+      
+      // Attempt to load dimensions
+      previewImg.addEventListener("load", () => {
+        img.dimensions = `${previewImg.naturalWidth}×${previewImg.naturalHeight}`;
+        const metaEl = document.getElementById(`meta-${img.id}`);
+        if (metaEl) {
+          metaEl.innerText = `${img.format.toUpperCase()} · ${img.dimensions}`;
+        }
+      });
+      
+      // Fallback icon on error
+      previewImg.addEventListener("error", () => {
+        previewImg.className = "hidden";
+        const errorIcon = document.createElement("div");
+        errorIcon.className = "text-mute text-xs flex flex-col items-center gap-1";
+        errorIcon.innerHTML = `<span>⚠️</span><span class="text-[9px]">Blocked/Invalid</span>`;
+        previewWrapper.appendChild(errorIcon);
+      });
+
+      previewWrapper.appendChild(previewImg);
+      card.appendChild(previewWrapper);
+
+      // Info Footer
+      const infoFooter = document.createElement("div");
+      infoFooter.className = "border-t border-hairline p-2 bg-canvas text-[10px] font-mono text-body truncate select-none";
+      
+      const fileMeta = document.createElement("div");
+      fileMeta.id = `meta-${img.id}`;
+      fileMeta.className = "font-bold text-ink mb-0.5 truncate";
+      fileMeta.innerText = `${img.format.toUpperCase()}${img.dimensions ? ` · ${img.dimensions}` : ""}`;
+      
+      const fileUrl = document.createElement("div");
+      fileUrl.className = "text-mute truncate";
+      fileUrl.innerText = img.url;
+
+      infoFooter.appendChild(fileMeta);
+      infoFooter.appendChild(fileUrl);
+      card.appendChild(infoFooter);
+
+      imageGrid.appendChild(card);
+    });
+
+    updateSelectionCounts();
+  }
+
+  function updateSelectionCounts() {
+    const selectedCount = discoveredImages.filter(img => img.selected).length;
+    downloadCount.innerText = selectedCount.toString();
+    btnDownloadSelected.disabled = selectedCount === 0;
+  }
+
+  function setAllSelection(selected: boolean) {
+    discoveredImages.forEach(img => {
+      // Only select/deselect currently filtered items
+      const isFiltered = activeFilter === "all" || 
+        (activeFilter === "jpg" && ["jpg", "jpeg"].includes(img.format)) ||
+        img.format === activeFilter;
+        
+      if (isFiltered) {
+        img.selected = selected;
+      }
+    });
+
+    renderImageGrid();
+  }
+
+  function setFilter(filter: string) {
+    activeFilter = filter;
+    
+    document.querySelectorAll(".filter-tab").forEach(tab => {
+      const btn = tab as HTMLButtonElement;
+      if (btn.dataset.filter === filter) {
+        btn.classList.add("border-primary", "text-ink");
+        btn.classList.remove("border-transparent", "text-body");
+      } else {
+        btn.classList.remove("border-primary", "text-ink");
+        btn.classList.add("border-transparent", "text-body");
+      }
+    });
+
+    renderImageGrid();
+  }
+
+  // Handle Download Process
+  async function handleDownloadTrigger() {
+    if (downloadInProgress) return;
+    
+    const selectedImages = discoveredImages.filter(img => img.selected);
+    if (selectedImages.length === 0) return;
+
+    downloadInProgress = true;
+    toggleAllControls(true);
+    statusSection.classList.remove("hidden");
+    statusSection.scrollIntoView({ behavior: "smooth" });
+
+    // Initialize progress counters
+    const total = selectedImages.length;
+    let success = 0;
+    let failed = 0;
+    let totalBytes = 0;
+    const startTime = Date.now();
+
+    metricTotal.innerText = total.toString();
+    metricSuccess.innerText = "0";
+    metricFailed.innerText = "0";
+    metricSize.innerText = "0 B";
+    metricSpeed.innerText = "0 KB/s";
+    metricRemaining.innerText = "Calculating...";
+    
+    // Clear logs
+    consoleLogs.innerHTML = "";
+    logToConsole(`Starting download queue for ${total} images...`, "info");
+
+    const zipMode = (document.querySelector('input[name="download-mode"]:checked') as HTMLInputElement).value === "zip";
+    const zip = new JSZip();
+
+    // 10 concurrent requests limit
+    const CONCURRENCY_LIMIT = 6;
+    const queue = [...selectedImages];
+    const activeWorkers: Promise<void>[] = [];
+
+    // Reset status badges in UI
+    selectedImages.forEach(img => {
+      updateImageStatusInUI(img.id, "downloading");
+    });
+
+    const processImage = async (img: typeof discoveredImages[0]) => {
+      logToConsole(`Fetching: ${img.url}...`, "info");
+      
+      try {
+        const blob = await fetchWithProxyFallback(img.url);
+        img.blob = blob;
+        img.size = blob.size;
+        img.status = "success";
+        
+        success++;
+        totalBytes += blob.size;
+        
+        updateImageStatusInUI(img.id, "success", `${img.format.toUpperCase()} · ${formatBytes(blob.size)}`);
+        logToConsole(`✓ Downloaded: ${img.url} (${formatBytes(blob.size)})`, "success");
+      } catch (err: any) {
+        img.status = "failed";
+        failed++;
+        updateImageStatusInUI(img.id, "failed");
+        logToConsole(`✗ Failed: ${img.url} (${err.message})`, "error");
+      }
+
+      // Update progress stats
+      const processed = success + failed;
+      const progress = Math.round((processed / total) * 100);
+      progressBarFill.style.width = `${progress}%`;
+      progressPercent.innerText = `${progress}%`;
+      
+      metricSuccess.innerText = success.toString();
+      metricFailed.innerText = failed.toString();
+      metricSize.innerText = formatBytes(totalBytes);
+
+      // Speed & remaining calculations
+      const elapsedSeconds = (Date.now() - startTime) / 1000;
+      const speedBytes = totalBytes / elapsedSeconds;
+      metricSpeed.innerText = `${formatBytes(speedBytes)}/s`;
+
+      if (speedBytes > 0) {
+        const remainingImages = total - processed;
+        const estimatedBytesRemaining = (totalBytes / processed) * remainingImages;
+        const secondsRemaining = Math.round(estimatedBytesRemaining / speedBytes);
+        metricRemaining.innerText = formatTime(secondsRemaining);
+      }
+    };
+
+    const worker = async () => {
+      while (queue.length > 0) {
+        const img = queue.shift();
+        if (img) await processImage(img);
+      }
+    };
+
+    // Spin up concurrent worker threads
+    for (let i = 0; i < Math.min(CONCURRENCY_LIMIT, total); i++) {
+      activeWorkers.push(worker());
+    }
+
+    await Promise.all(activeWorkers);
+    logToConsole(`Download queue complete. ${success} succeeded, ${failed} failed.`, "success");
+
+    // ZIP Compilation & Delivery
+    if (success > 0) {
+      if (zipMode) {
+        logToConsole("Compiling downloaded files into a ZIP archive...", "info");
+        
+        // Add files to ZIP
+        let fileCounter: Record<string, number> = {};
+        
+        selectedImages.forEach((img, idx) => {
+          if (img.status === "success" && img.blob) {
+            // Deduplicate filenames in ZIP
+            let filename = getFilenameFromUrl(img.url);
+            const ext = img.format !== "unknown" ? `.${img.format}` : "";
+            
+            if (!filename) {
+              filename = `image-${idx + 1}`;
+            } else {
+              filename = filename.replace(/\.[^/.]+$/, ""); // strip extension
+            }
+
+            const baseName = filename;
+            if (fileCounter[baseName] !== undefined) {
+              fileCounter[baseName]++;
+              filename = `${baseName}-${fileCounter[baseName]}${ext}`;
+            } else {
+              fileCounter[baseName] = 0;
+              filename = `${baseName}${ext}`;
+            }
+
+            zip.file(filename, img.blob);
+          }
+        });
+
+        const zipName = (zipFilenameInput.value.trim() || "bulk-images") + ".zip";
+        const content = await zip.generateAsync({ type: "blob" });
+        
+        triggerFileDownload(content, zipName);
+        logToConsole(`✓ ZIP Archive downloaded: ${zipName}`, "success");
+      } else {
+        // Individual Downloads
+        logToConsole("Triggering browser downloads for individual image files...", "info");
+        selectedImages.forEach((img, idx) => {
+          if (img.status === "success" && img.blob) {
+            let filename = getFilenameFromUrl(img.url);
+            if (!filename) {
+              filename = `image-${idx + 1}.${img.format}`;
+            }
+            triggerFileDownload(img.blob, filename);
+          }
+        });
+      }
+    } else {
+      alert("No images were successfully downloaded. Please check the log for errors.");
+    }
+
+    downloadInProgress = false;
+    toggleAllControls(false);
+  }
+
+  // Fetch Image, falling back to server proxy on CORS error
+  async function fetchWithProxyFallback(url: string): Promise<Blob> {
+    try {
+      // 1. Direct browser fetch
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.blob();
+    } catch (_) {
+      // 2. CORS Proxy fallback
+      const proxyUrl = `/api/proxy?url=${encodeURIComponent(url)}`;
+      const res = await fetch(proxyUrl);
+      if (!res.ok) throw new Error("CORS block, server proxy fetch failed");
+      return await res.blob();
+    }
+  }
+
+  function updateImageStatusInUI(id: string, status: "pending" | "downloading" | "success" | "failed", metaText?: string) {
+    const statusBadge = document.getElementById(`status-${id}`);
+    const card = document.getElementById(`card-${id}`);
+    
+    if (statusBadge) {
+      statusBadge.innerText = status.toUpperCase();
+      
+      // Styling variants
+      statusBadge.className = "absolute top-2 right-2 z-20 px-2 py-0.5 rounded-xs text-[9px] font-mono font-bold border tracking-wider bg-canvas/85 backdrop-blur-md ";
+      if (status === "success") {
+        statusBadge.classList.add("border-success/30", "text-success");
+      } else if (status === "failed") {
+        statusBadge.classList.add("border-error/30", "text-error");
+      } else if (status === "downloading") {
+        statusBadge.classList.add("border-warning/30", "text-warning animate-pulse");
+      } else {
+        statusBadge.classList.add("border-hairline", "text-body");
+      }
+    }
+
+    if (card && status === "success" && metaText) {
+      const metaEl = document.getElementById(`meta-${id}`);
+      if (metaEl) metaEl.innerText = metaText;
+    }
+  }
+
+  function toggleAllControls(disabled: boolean) {
+    tabDirect.disabled = disabled;
+    tabScraper.disabled = disabled;
+    urlsInput.disabled = disabled;
+    btnAction.disabled = disabled;
+    btnClear.disabled = disabled;
+    btnSelectAll.disabled = disabled;
+    btnDeselectAll.disabled = disabled;
+    btnDownloadSelected.disabled = disabled;
+    zipFilenameInput.disabled = disabled;
+    
+    document.querySelectorAll(".accent-primary").forEach(input => {
+      (input as HTMLInputElement).disabled = disabled;
+    });
+
+    if (disabled) {
+      btnDownloadSelected.innerText = "Downloading...";
+    } else {
+      updateSelectionCounts();
+    }
+  }
+
+  function triggerFileDownload(blob: Blob, filename: string) {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
+  }
+
+  function getFilenameFromUrl(url: string): string {
+    try {
+      const pathname = new URL(url).pathname;
+      return pathname.substring(pathname.lastIndexOf("/") + 1);
+    } catch (_) {
+      return "";
+    }
+  }
+
+  function formatBytes(bytes: number, decimals = 2) {
+    if (bytes === 0) return "0 Bytes";
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ["Bytes", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+  }
+
+  function formatTime(seconds: number): string {
+    if (seconds < 0) return "0s";
+    if (seconds < 60) return `${seconds}s`;
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes}m ${secs}s`;
+  }
+</script>
