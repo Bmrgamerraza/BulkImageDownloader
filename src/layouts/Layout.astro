@@ -97,13 +97,14 @@ const canonicalUrl = new URL(
       >
         <a
           href="/"
-          class="flex items-center gap-2 font-mono text-sm font-semibold tracking-tight text-ink transition-opacity hover:opacity-80"
+          class="flex items-center gap-2 font-mono text-xs sm:text-sm font-semibold tracking-tight text-ink transition-opacity hover:opacity-80"
         >
           <span
-            class="flex h-6 w-6 items-center justify-center rounded-sm bg-primary text-[11px] font-bold text-on-primary"
+            class="flex h-6 w-6 items-center justify-center rounded-sm bg-primary text-[11px] font-bold text-on-primary shrink-0"
             >⚡</span
           >
-          BULK IMAGE DOWNLOADER
+          <span class="hidden sm:inline">BULK IMAGE DOWNLOADER</span>
+          <span class="sm:hidden">BULK IMAGES</span>
         </a>
 
         <nav class="hidden items-center gap-6 md:flex">
@@ -124,7 +125,7 @@ const canonicalUrl = new URL(
           >
         </nav>
 
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2">
           <!-- Theme Toggle Button -->
           <button
             id="theme-toggle"
@@ -136,13 +137,50 @@ const canonicalUrl = new URL(
 
           <a
             href="#downloader"
-            class="flex h-7 items-center rounded-sm bg-primary px-3 text-xs font-semibold text-on-primary transition-all hover:bg-neutral-800"
+            class="hidden sm:flex h-7 items-center rounded-sm bg-primary px-3 text-xs font-semibold text-on-primary transition-all hover:bg-neutral-800"
           >
             Get Started
           </a>
+
+          <!-- Mobile Menu Toggle Button -->
+          <button
+            id="mobile-menu-toggle"
+            class="h-7 w-7 flex items-center justify-center rounded-sm border border-hairline bg-canvas hover:bg-canvas-soft-2 text-ink cursor-pointer focus:outline-none md:hidden"
+            aria-label="Toggle navigation menu"
+          >
+            <span id="mobile-menu-icon" class="text-xs">☰</span>
+          </button>
         </div>
       </div>
     </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div
+      id="mobile-menu"
+      class="hidden border-b border-hairline bg-canvas/95 backdrop-blur-md px-4 py-4 md:hidden flex flex-col gap-4"
+    >
+      <a
+        href="#downloader"
+        class="mobile-nav-link text-sm font-medium text-body transition-colors hover:text-ink py-2"
+        >Downloader</a
+      >
+      <a
+        href="#features"
+        class="mobile-nav-link text-sm font-medium text-body transition-colors hover:text-ink py-2"
+        >Features</a
+      >
+      <a
+        href="#how-to-use"
+        class="mobile-nav-link text-sm font-medium text-body transition-colors hover:text-ink py-2"
+        >How to Use</a
+      >
+      <a
+        href="#downloader"
+        class="mobile-nav-link flex h-9 items-center justify-center rounded-sm bg-primary text-xs font-semibold text-on-primary transition-all hover:bg-neutral-800 mt-2"
+      >
+        Get Started
+      </a>
+    </div>
 
     <main class="mx-auto max-w-[1400px] px-4 sm:px-6 md:px-8 py-8">
       <slot />
@@ -218,7 +256,7 @@ const canonicalUrl = new URL(
       </div>
     </footer>
 
-    <!-- Theme Toggle Interaction Script -->
+    <!-- Theme Toggle & Mobile Menu Script -->
     <script>
       const toggleBtn = document.getElementById("theme-toggle");
       const toggleIcon = document.getElementById("theme-toggle-icon");
@@ -239,6 +277,29 @@ const canonicalUrl = new URL(
           const isLight = document.documentElement.classList.toggle("light");
           localStorage.setItem("theme", isLight ? "light" : "dark");
           updateToggleIcon();
+        });
+      }
+
+      // Mobile Menu Toggling
+      const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const mobileMenuIcon = document.getElementById("mobile-menu-icon");
+
+      if (mobileMenuToggle && mobileMenu) {
+        mobileMenuToggle.addEventListener("click", () => {
+          const isHidden = mobileMenu.classList.toggle("hidden");
+          if (mobileMenuIcon) {
+            mobileMenuIcon.innerText = isHidden ? "☰" : "✕";
+          }
+        });
+
+        // Close menu when a link is clicked
+        const mobileLinks = mobileMenu.querySelectorAll(".mobile-nav-link");
+        mobileLinks.forEach((link) => {
+          link.addEventListener("click", () => {
+            mobileMenu.classList.add("hidden");
+            if (mobileMenuIcon) mobileMenuIcon.innerText = "☰";
+          });
         });
       }
     </script>

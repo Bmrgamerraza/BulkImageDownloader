@@ -64,20 +64,20 @@ import Layout from "../layouts/Layout.astro";
       <div class="flex border-b border-hairline bg-canvas-soft">
         <button
           id="tab-direct"
-          class="flex-1 py-4 px-6 text-center text-sm font-semibold border-b-2 border-primary text-ink transition-colors hover:text-ink cursor-pointer focus:outline-none"
+          class="flex-1 py-3 sm:py-4 px-3 sm:px-6 text-center text-xs sm:text-sm font-semibold border-b-2 border-primary text-ink transition-colors hover:text-ink cursor-pointer focus:outline-none"
         >
           Paste URL List
         </button>
         <button
           id="tab-scraper"
-          class="flex-1 py-4 px-6 text-center text-sm font-semibold border-b-2 border-transparent text-body hover:text-ink transition-colors cursor-pointer focus:outline-none"
+          class="flex-1 py-3 sm:py-4 px-3 sm:px-6 text-center text-xs sm:text-sm font-semibold border-b-2 border-transparent text-body hover:text-ink transition-colors cursor-pointer focus:outline-none"
         >
           Extract From Webpage
         </button>
       </div>
 
       <!-- Tool Body -->
-      <div class="p-6 md:p-8">
+      <div class="p-4 sm:p-6 md:p-8">
         <!-- Hints / Instructions -->
         <div
           class="flex items-start gap-3 rounded-md bg-canvas-soft-2 p-4 border border-hairline mb-6"
@@ -92,7 +92,7 @@ import Layout from "../layouts/Layout.astro";
 
         <!-- Input Area -->
         <div class="mb-6">
-          <div class="flex justify-between items-center mb-2">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2">
             <label
               for="urls-input"
               class="text-sm font-semibold text-ink"
@@ -100,7 +100,7 @@ import Layout from "../layouts/Layout.astro";
             >
             <div
               id="url-stats"
-              class="text-xs text-mute flex gap-3 select-none"
+              class="text-xs text-mute flex flex-wrap gap-x-3 gap-y-1 select-none"
             >
               <span
                 >Total Links: <strong id="stat-pasted" class="text-ink"
@@ -130,7 +130,7 @@ https://example.com/image2.png"
 
         <!-- Action Bar -->
         <div
-          class="flex flex-col sm:flex-row gap-4 items-center justify-between"
+          class="flex flex-col-reverse sm:flex-row gap-4 items-center justify-between"
         >
           <button
             id="btn-clear"
@@ -157,7 +157,7 @@ https://example.com/image2.png"
   <!-- Download Status & Statistics Board (Hidden by default) -->
   <section id="status-section" class="hidden max-w-[1000px] mx-auto mb-12">
     <div
-      class="bg-canvas border border-hairline rounded-lg shadow-sm p-6 md:p-8"
+      class="bg-canvas border border-hairline rounded-lg shadow-sm p-4 sm:p-6 md:p-8"
     >
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-lg font-bold text-ink flex items-center gap-2">
@@ -244,7 +244,7 @@ https://example.com/image2.png"
         </div>
         <div
           id="console-logs"
-          class="h-32 overflow-y-auto bg-primary text-green-400 p-4 font-mono text-[11px] leading-relaxed scrollbar-thin"
+          class="h-32 overflow-y-auto bg-neutral-950 text-emerald-400 p-4 font-mono text-[11px] leading-relaxed scrollbar-thin"
         >
           <div class="text-mute">
             [Engine Idle] Paste URLs or extract a webpage above to initialize
@@ -325,7 +325,7 @@ https://example.com/image2.png"
 
       <!-- Custom Settings Card -->
       <div
-        class="bg-canvas border border-hairline rounded-lg p-6 flex flex-col md:flex-row gap-6 items-end justify-between shadow-sm"
+        class="bg-canvas border border-hairline rounded-lg p-6 flex flex-col md:flex-row gap-6 items-stretch md:items-end justify-between shadow-sm"
       >
         <div class="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
@@ -346,7 +346,7 @@ https://example.com/image2.png"
             <label class="block text-xs font-bold text-ink uppercase mb-2"
               >Download Mode</label
             >
-            <div class="flex gap-2">
+            <div class="flex flex-col sm:flex-row gap-2">
               <label
                 class="flex-1 flex h-10 items-center justify-between border border-hairline rounded-sm px-3 text-sm cursor-pointer select-none bg-canvas hover:bg-canvas-soft"
               >
@@ -376,7 +376,7 @@ https://example.com/image2.png"
 
         <button
           id="btn-download-selected"
-          class="w-full md:w-auto h-12 inline-flex items-center justify-center gap-2 rounded-pill bg-primary px-8 text-sm font-semibold text-on-primary hover:bg-neutral-800 transition-colors shadow-sm cursor-pointer disabled:opacity-50 disabled:pointer-events-none"
+          class="w-full md:w-auto h-12 inline-flex items-center justify-center gap-2 rounded-pill bg-primary px-8 text-sm font-semibold text-on-primary hover:bg-neutral-800 transition-colors shadow-sm cursor-pointer disabled:opacity-50 disabled:pointer-events-none shrink-0"
         >
           ⬇️ Download Selected (<span id="download-count">0</span>)
         </button>
@@ -414,7 +414,7 @@ https://example.com/image2.png"
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <div
-        class="bg-canvas border border-hairline rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
+        class="bg-canvas border border-hairline rounded-lg p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
       >
         <div
           class="h-10 w-10 flex items-center justify-center bg-link-bg-soft rounded-sm text-link text-lg font-bold mb-4"
@@ -432,7 +432,7 @@ https://example.com/image2.png"
       </div>
 
       <div
-        class="bg-canvas border border-hairline rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
+        class="bg-canvas border border-hairline rounded-lg p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
       >
         <div
           class="h-10 w-10 flex items-center justify-center bg-cyan-soft rounded-sm text-cyan-deep text-lg font-bold mb-4"
@@ -451,7 +451,7 @@ https://example.com/image2.png"
       </div>
 
       <div
-        class="bg-canvas border border-hairline rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
+        class="bg-canvas border border-hairline rounded-lg p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
       >
         <div
           class="h-10 w-10 flex items-center justify-center bg-violet-soft rounded-sm text-violet-deep text-lg font-bold mb-4"
@@ -469,7 +469,7 @@ https://example.com/image2.png"
       </div>
 
       <div
-        class="bg-canvas border border-hairline rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
+        class="bg-canvas border border-hairline rounded-lg p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
       >
         <div
           class="h-10 w-10 flex items-center justify-center bg-warning-soft rounded-sm text-warning-deep text-lg font-bold mb-4"
@@ -485,7 +485,7 @@ https://example.com/image2.png"
       </div>
 
       <div
-        class="bg-canvas border border-hairline rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
+        class="bg-canvas border border-hairline rounded-lg p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
       >
         <div
           class="h-10 w-10 flex items-center justify-center bg-error-soft rounded-sm text-error-deep text-lg font-bold mb-4"
@@ -501,7 +501,7 @@ https://example.com/image2.png"
       </div>
 
       <div
-        class="bg-canvas border border-hairline rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
+        class="bg-canvas border border-hairline rounded-lg p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
       >
         <div
           class="h-10 w-10 flex items-center justify-center bg-neutral-200 rounded-sm text-ink text-lg font-bold mb-4"
@@ -535,7 +535,7 @@ https://example.com/image2.png"
 
     <ol class="space-y-6">
       <li
-        class="flex gap-4 items-start bg-canvas border border-hairline rounded-md p-6 shadow-sm"
+        class="flex gap-4 items-start bg-canvas border border-hairline rounded-md p-4 sm:p-6 shadow-sm"
       >
         <span
           class="h-8 w-8 shrink-0 flex items-center justify-center rounded-full bg-primary text-sm font-bold text-on-primary"
@@ -553,7 +553,7 @@ https://example.com/image2.png"
         </div>
       </li>
       <li
-        class="flex gap-4 items-start bg-canvas border border-hairline rounded-md p-6 shadow-sm"
+        class="flex gap-4 items-start bg-canvas border border-hairline rounded-md p-4 sm:p-6 shadow-sm"
       >
         <span
           class="h-8 w-8 shrink-0 flex items-center justify-center rounded-full bg-primary text-sm font-bold text-on-primary"
@@ -571,7 +571,7 @@ https://example.com/image2.png"
         </div>
       </li>
       <li
-        class="flex gap-4 items-start bg-canvas border border-hairline rounded-md p-6 shadow-sm"
+        class="flex gap-4 items-start bg-canvas border border-hairline rounded-md p-4 sm:p-6 shadow-sm"
       >
         <span
           class="h-8 w-8 shrink-0 flex items-center justify-center rounded-full bg-primary text-sm font-bold text-on-primary"
@@ -851,8 +851,8 @@ https://example.com/image2.png"
     type: "info" | "success" | "error" = "info",
   ) {
     const logEl = document.createElement("div");
-    let colorClass = "text-green-400";
-    if (type === "success") colorClass = "text-blue-400";
+    let colorClass = "text-emerald-400";
+    if (type === "success") colorClass = "text-cyan-400";
     if (type === "error") colorClass = "text-red-400";
 
     const timestamp = new Date().toLocaleTimeString();
@@ -1090,6 +1090,9 @@ https://example.com/image2.png"
       statusBadge.id = `status-${img.id}`;
       statusBadge.className =
         "absolute top-2 right-2 z-20 px-2 py-0.5 rounded-xs text-[9px] font-mono font-bold bg-canvas/80 border border-hairline tracking-wider text-body";
+      if (img.status === "pending") {
+        statusBadge.classList.add("hidden");
+      }
       statusBadge.innerText = img.status.toUpperCase();
       card.appendChild(statusBadge);
 
@@ -1421,23 +1424,28 @@ https://example.com/image2.png"
     const card = document.getElementById(`card-${id}`);
 
     if (statusBadge) {
-      statusBadge.innerText = status.toUpperCase();
-
-      // Styling variants
-      statusBadge.className =
-        "absolute top-2 right-2 z-20 px-2 py-0.5 rounded-xs text-[9px] font-mono font-bold border tracking-wider bg-canvas/85 backdrop-blur-md ";
-      if (status === "success") {
-        statusBadge.classList.add("border-success/30", "text-success");
-      } else if (status === "failed") {
-        statusBadge.classList.add("border-error/30", "text-error");
-      } else if (status === "downloading") {
-        statusBadge.classList.add(
-          "border-warning/30",
-          "text-warning",
-          "animate-pulse",
-        );
+      if (status === "pending") {
+        statusBadge.classList.add("hidden");
       } else {
-        statusBadge.classList.add("border-hairline", "text-body");
+        statusBadge.classList.remove("hidden");
+        statusBadge.innerText = status.toUpperCase();
+
+        // Styling variants
+        statusBadge.className =
+          "absolute top-2 right-2 z-20 px-2 py-0.5 rounded-xs text-[9px] font-mono font-bold border tracking-wider bg-canvas/85 backdrop-blur-md ";
+        if (status === "success") {
+          statusBadge.classList.add("border-success/30", "text-success");
+        } else if (status === "failed") {
+          statusBadge.classList.add("border-error/30", "text-error");
+        } else if (status === "downloading") {
+          statusBadge.classList.add(
+            "border-warning/30",
+            "text-warning",
+            "animate-pulse",
+          );
+        } else {
+          statusBadge.classList.add("border-hairline", "text-body");
+        }
       }
     }
 
