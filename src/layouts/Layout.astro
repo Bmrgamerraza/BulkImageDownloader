@@ -53,6 +53,16 @@ const canonicalUrl = new URL(Astro.url.pathname, "https://freebulkimagedownloade
     <!-- Favicon (Fallback inline SVG for absolute clean visual) -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>" />
 
+    <!-- Inline script to set default dark mode or load saved theme without flash -->
+    <script is:inline>
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "light" || (!savedTheme && window.matchMedia("(prefers-color-scheme: light)").matches)) {
+        document.documentElement.classList.add("light");
+      } else {
+        document.documentElement.classList.remove("light");
+      }
+    </script>
+
     <meta name="generator" content={Astro.generator} />
   </head>
   <body class="bg-canvas-soft text-ink font-sans selection:bg-primary selection:text-on-primary">
@@ -71,6 +81,15 @@ const canonicalUrl = new URL(Astro.url.pathname, "https://freebulkimagedownloade
         </nav>
 
         <div class="flex items-center gap-3">
+          <!-- Theme Toggle Button -->
+          <button 
+            id="theme-toggle" 
+            class="h-7 w-7 flex items-center justify-center rounded-sm border border-hairline bg-canvas hover:bg-canvas-soft-2 text-ink cursor-pointer focus:outline-none"
+            aria-label="Toggle theme"
+          >
+            <span id="theme-toggle-icon" class="text-xs">🌙</span>
+          </button>
+
           <a 
             href="#downloader" 
             class="flex h-7 items-center rounded-sm bg-primary px-3 text-xs font-semibold text-on-primary transition-all hover:bg-neutral-800"
@@ -124,5 +143,30 @@ const canonicalUrl = new URL(Astro.url.pathname, "https://freebulkimagedownloade
         </div>
       </div>
     </footer>
+
+    <!-- Theme Toggle Interaction Script -->
+    <script>
+      const toggleBtn = document.getElementById("theme-toggle");
+      const toggleIcon = document.getElementById("theme-toggle-icon");
+
+      function updateToggleIcon() {
+        if (document.documentElement.classList.contains("light")) {
+          if (toggleIcon) toggleIcon.innerText = "☀️";
+        } else {
+          if (toggleIcon) toggleIcon.innerText = "🌙";
+        }
+      }
+
+      // Initial icon set
+      updateToggleIcon();
+
+      if (toggleBtn) {
+        toggleBtn.addEventListener("click", () => {
+          const isLight = document.documentElement.classList.toggle("light");
+          localStorage.setItem("theme", isLight ? "light" : "dark");
+          updateToggleIcon();
+        });
+      }
+    </script>
   </body>
 </html>

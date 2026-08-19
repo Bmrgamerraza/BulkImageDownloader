@@ -13,13 +13,20 @@ export const GET: APIRoute = async ({ url }) => {
   try {
     const targetUrl = new URL(imageUrl);
     
+    // Set up AbortController for a 5-second timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    
     // Fetch image from source
     const response = await fetch(targetUrl.href, {
+      signal: controller.signal,
       headers: {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
       },
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       return new Response(
@@ -56,6 +63,15 @@ export const GET: APIRoute = async ({ url }) => {
       },
     });
   } catch (error: any) {
+    if (error.name === "AbortError") {
+      return new Response(
+        JSON.stringify({ error: "Request timed out after 5 seconds" }),
+        {
+          status: 408,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
     return new Response(
       JSON.stringify({ error: error?.message || "Internal server error" }),
       {

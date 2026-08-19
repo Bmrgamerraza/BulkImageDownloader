@@ -898,7 +898,7 @@ import Layout from "../layouts/Layout.astro";
     const zip = new JSZip();
 
     // 10 concurrent requests limit
-    const CONCURRENCY_LIMIT = 6;
+    const CONCURRENCY_LIMIT = 10;
     const queue = [...selectedImages];
     const activeWorkers: Promise<void>[] = [];
 
@@ -1027,17 +1027,29 @@ import Layout from "../layouts/Layout.astro";
 
   // Fetch Image, falling back to server proxy on CORS error
   async function fetchWithProxyFallback(url: string): Promise<Blob> {
+    // 1. Direct browser fetch with 3s timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
     try {
-      // 1. Direct browser fetch
-      const res = await fetch(url);
+      const res = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeoutId);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return await res.blob();
     } catch (_) {
-      // 2. CORS Proxy fallback
-      const proxyUrl = `/api/proxy?url=${encodeURIComponent(url)}`;
-      const res = await fetch(proxyUrl);
-      if (!res.ok) throw new Error("CORS block, server proxy fetch failed");
-      return await res.blob();
+      clearTimeout(timeoutId);
+      // 2. CORS Proxy fallback with 5s timeout
+      const proxyController = new AbortController();
+      const proxyTimeoutId = setTimeout(() => proxyController.abort(), 5000);
+      try {
+        const proxyUrl = `/api/proxy?url=${encodeURIComponent(url)}`;
+        const res = await fetch(proxyUrl, { signal: proxyController.signal });
+        clearTimeout(proxyTimeoutId);
+        if (!res.ok) throw new Error("CORS block, server proxy fetch failed");
+        return await res.blob();
+      } catch (err: any) {
+        clearTimeout(proxyTimeoutId);
+        throw err;
+      }
     }
   }
 
