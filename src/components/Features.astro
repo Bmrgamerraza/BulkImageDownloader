@@ -1,0 +1,129 @@
+---
+// src/components/Features.astro
+---
+
+<!-- Detailed Feature Sections (Vercel-Inspired Layout) -->
+<section
+  id="features"
+  class="max-w-[1200px] mx-auto border-t border-hairline pt-20 mb-16 scroll-mt-20"
+>
+  <div class="text-center max-w-2xl mx-auto mb-16">
+    <span
+      class="font-mono text-xs text-mute font-semibold uppercase tracking-wider mb-3 block"
+      >Engineered for Performance</span
+    >
+    <h2 class="text-3xl font-bold tracking-tight text-ink mb-4 font-sans">
+      Why Bulk Image Downloader is better.
+    </h2>
+    <p class="text-sm text-body leading-relaxed">
+      We examined current batch downloading utilities (including competitor
+      sites like bulkimagedownloader.in) and re-engineered the process to
+      solve privacy bottlenecks, loading delays, and CORS blocks.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div
+      class="bg-canvas border border-hairline rounded-lg p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
+    >
+      <div
+        class="h-10 w-10 flex items-center justify-center bg-link-bg-soft rounded-sm text-link text-lg font-bold mb-4"
+      >
+        🔒
+      </div>
+      <h3 class="text-lg font-bold text-ink mb-2">
+        100% Client-Side Privacy
+      </h3>
+      <p class="text-sm text-body leading-relaxed">
+        Competitors fetch and compile your images on their servers. We do all
+        fetching and ZIP packaging locally inside your browser cache. Your
+        links and image downloads remain completely private.
+      </p>
+    </div>
+
+    <div
+      class="bg-canvas border border-hairline rounded-lg p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
+    >
+      <div
+        class="h-10 w-10 flex items-center justify-center bg-cyan-soft rounded-sm text-cyan-deep text-lg font-bold mb-4"
+      >
+        🌐
+      </div>
+      <h3 class="text-lg font-bold text-ink mb-2">
+        Transparent CORS Proxy Fallback
+      </h3>
+      <p class="text-sm text-body leading-relaxed">
+        Downloading directly from foreign domains normally triggers CORS
+        browser security blocks. Our engine automatically redirects
+        CORS-blocked images through a secure server proxy to guarantee a 100%
+        download success rate.
+      </p>
+    </div>
+
+    <div
+      class="bg-canvas border border-hairline rounded-lg p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
+    >
+      <div
+        class="h-10 w-10 flex items-center justify-center bg-violet-soft rounded-sm text-violet-deep text-lg font-bold mb-4"
+      >
+        🖼️
+      </div>
+      <h3 class="text-lg font-bold text-ink mb-2">
+        Live Thumbnail Preview Grid
+      </h3>
+      <p class="text-sm text-body leading-relaxed">
+        Don't download blind. Our interactive grid shows full thumbnail
+        previews, format extensions, size calculations, and resolution details
+        before you trigger the final download.
+      </p>
+    </div>
+
+    <div
+      class="bg-canvas border border-hairline rounded-lg p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
+    >
+      <div
+        class="h-10 w-10 flex items-center justify-center bg-warning-soft rounded-sm text-warning-deep text-lg font-bold mb-4"
+      >
+        🎛️
+      </div>
+      <h3 class="text-lg font-bold text-ink mb-2">Fine-Grained Filtering</h3>
+      <p class="text-sm text-body leading-relaxed">
+        Easily deselect icons, spacers, or duplicate assets. Use the format
+        filter tabs to view and select only specific file extensions (PNG,
+        JPG, WebP, SVG) in a single click.
+      </p>
+    </div>
+
+    <div
+      class="bg-canvas border border-hairline rounded-lg p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
+    >
+      <div
+        class="h-10 w-10 flex items-center justify-center bg-error-soft rounded-sm text-error-deep text-lg font-bold mb-4"
+      >
+        ⚡
+      </div>
+      <h3 class="text-lg font-bold text-ink mb-2">Speed & Time Estimator</h3>
+      <p class="text-sm text-body leading-relaxed">
+        Our downloading queue processes up to 10 concurrent requests. Live
+        metrics display average download speed, processing bandwidth, and
+        accurate time-to-completion countdowns.
+      </p>
+    </div>
+
+    <div
+      class="bg-canvas border border-hairline rounded-lg p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
+    >
+      <div
+        class="h-10 w-10 flex items-center justify-center bg-neutral-200 rounded-sm text-ink text-lg font-bold mb-4"
+      >
+        🕷️
+      </div>
+      <h3 class="text-lg font-bold text-ink mb-2">Deep Webpage Extraction</h3>
+      <p class="text-sm text-body leading-relaxed">
+        Give us a single URL. We inspect image elements, responsive srcset
+        tags, inline CSS background declarations, and direct anchor links to
+        scrape every possible image asset.
+      </p>
+    </div>
+  </div>
+</section>

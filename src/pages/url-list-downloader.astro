@@ -1,0 +1,209 @@
+---
+// src/pages/url-list-downloader.astro
+import Layout from "../layouts/Layout.astro";
+import Downloader from "../components/Downloader.astro";
+import Features from "../components/Features.astro";
+import HowToUse from "../components/HowToUse.astro";
+---
+
+<Layout
+  title="Bulk Image Downloader from URL List - Free Online Batch Tool"
+  description="Download images in bulk from a list of URLs. Paste your image links and batch download them instantly in a ZIP package. 100% private and client-side."
+  keywords="bulk image downloader from url list, free bulk image downloader from url list, download images from urls in bulk, batch image downloader from list"
+>
+  <!-- Hero Section -->
+  <section
+    class="relative overflow-hidden pt-12 pb-20 border-b border-hairline bg-canvas rounded-lg mb-12"
+  >
+    <div
+      class="absolute inset-0 -top-40 -left-40 h-[600px] w-[800px] mesh-gradient pointer-events-none"
+    >
+    </div>
+    <div
+      class="absolute right-0 top-0 h-[500px] w-[500px] mesh-gradient pointer-events-none"
+      style="opacity: 0.08;"
+    >
+    </div>
+
+    <div class="relative z-10 max-w-3xl mx-auto text-center px-4">
+      <span
+        class="inline-flex items-center gap-1.5 rounded-full bg-link-bg-soft px-3 py-1 text-xs font-semibold text-link mb-6"
+      >
+        ⚡ Batch Downloader from Link List
+      </span>
+      <h1
+        class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink mb-6 font-sans"
+      >
+        Bulk download images from URL lists.
+      </h1>
+      <p
+        class="text-lg md:text-xl text-body mb-8 leading-relaxed max-w-2xl mx-auto"
+      >
+        Have a list of direct image links? Paste them all here to parse, verify,
+        and package them into a single high-speed ZIP archive locally in your browser.
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-4">
+        <a
+          href="#downloader"
+          class="rounded-pill bg-primary px-6 py-3 text-sm font-medium text-on-primary hover:bg-neutral-800 transition-colors shadow-sm"
+        >
+          Open URL Paste Tool
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Downloader Workspace (Direct tab active by default) -->
+  <Downloader defaultTab="direct" />
+
+  <!-- Features Grid -->
+  <Features />
+
+  <!-- How to Use Workflow -->
+  <HowToUse />
+
+  <!-- Dedicated SEO Copy for URL List Downloaders -->
+  <section
+    id="seo-guide"
+    class="max-w-[1000px] mx-auto border-t border-hairline pt-20 mb-20 scroll-mt-20"
+  >
+    <div class="bg-canvas border border-hairline rounded-lg p-6 sm:p-8 md:p-12 shadow-sm">
+      <h2 class="text-3xl font-bold tracking-tight text-ink mb-6 font-sans border-b border-hairline pb-4">
+        The Complete Guide to Bulk Image Downloading from URL Lists
+      </h2>
+      
+      <div class="prose max-w-none text-sm text-body leading-relaxed space-y-6">
+        <p>
+          Managing bulk image downloads can quickly become a bottleneck for web design agencies, data scientists, digital marketers, and e-commerce professionals. Manual clicks are highly inefficient, while building custom scraping scripts in Python (using libraries like BeautifulSoup or Scrapy) requires programming knowledge and server configuration.
+        </p>
+
+        <p>
+          A dedicated <strong>bulk image downloader from url list</strong> bridges this gap. It provides a browser-based, zero-code environment to process hundreds of image URLs simultaneously. Our online utility handles link cleaning, duplicate filtering, CORS bypass resolution, concurrent download queues, and ZIP compiling in one package.
+        </p>
+
+        <h3 class="text-xl font-bold text-ink mt-8 mb-4 font-sans">
+          How to Generate a Clean Image URL List for Downloading
+        </h3>
+        
+        <p>
+          Before pasting links into the downloader workspace, you need to compile them. Here are the most common methods for extracting a list of image links from spreadsheets, files, or webpages:
+        </p>
+        
+        <ul class="list-disc pl-5 space-y-2">
+          <li>
+            <strong>Spreadsheets (Excel / Google Sheets)</strong>: If you keep inventory lists or media schedules, copy the column containing the image links directly. Our parser cleans up leading or trailing spaces and ignores irrelevant text metadata.
+          </li>
+          <li>
+            <strong>Text Editors & CSV Files</strong>: Simply open your CSV, JSON, or TXT file, copy the block, and paste it. The downloader engine will extract absolute URLs starting with <code>http://</code> or <code>https://</code>.
+          </li>
+          <li>
+            <strong>Sitemap Crawling</strong>: If you are migrating a blog or portfolio, copy the sitemap xml image nodes (e.g. <code>&lt;image:loc&gt;</code>) and paste them directly; our engine extracts the URLs from the XML nodes.
+          </li>
+        </ul>
+
+        <h3 class="text-xl font-bold text-ink mt-8 mb-4 font-sans">
+          Why Client-Side Downloading is Safer and Faster
+        </h3>
+        
+        <p>
+          Typical server-side bulk downloaders fetch images to their own cloud servers, pack them into a ZIP, and then send the ZIP link to you. This approach introduces significant privacy and speed bottlenecks:
+        </p>
+        
+        <ol class="list-decimal pl-5 space-y-2">
+          <li>
+            <strong>Privacy Risks</strong>: Sensitive company mockups, private asset inventories, or personal media links are processed and stored on third-party servers.
+          </li>
+          <li>
+            <strong>Bandwidth Limits</strong>: Server-side downloaders enforce strict limits (e.g. max 50MB per ZIP or max 10 downloads per day) to reduce their hosting costs.
+          </li>
+          <li>
+            <strong>Double Download Delay</strong>: The server must download all images first, compile them, and then you must download the entire ZIP.
+          </li>
+        </ol>
+
+        <p>
+          Our <strong>free bulk image downloader from url list</strong> runs entirely client-side. Using Javascript Fetch API, blobs are downloaded directly from target host servers straight to your browser memory and compiled locally using <code>JSZip</code>. This ensures maximum privacy, removes file size constraints, and runs at your actual connection speed.
+        </p>
+
+        <h3 class="text-xl font-bold text-ink mt-8 mb-4 font-sans">
+          Solving Browser CORS Blocks on External Domains
+        </h3>
+        
+        <p>
+          The biggest technical hurdle for browser-based downloaders is Cross-Origin Resource Sharing (CORS). Standard browser security prevents a web application hosted on <code>Domain A</code> from downloading assets directly from <code>Domain B</code> unless Domain B explicitly allows it in its headers.
+        </p>
+        
+        <p>
+          To ensure a 100% success rate, our downloader engine features a <strong>transparent CORS proxy fallback</strong>. If a direct browser fetch fails due to CORS security rules, our queue immediately redirects the request through our secure backend proxy which retrieves the image data and returns it safely to your browser.
+        </p>
+      </div>
+
+      <div class="mt-12 border-t border-hairline pt-8">
+        <h3 class="text-2xl font-bold text-ink mb-6 font-sans">
+          Frequently Asked Questions (URL Downloader)
+        </h3>
+        <div class="space-y-6">
+          <div class="border-b border-hairline pb-4">
+            <h4 class="text-base font-semibold text-ink mb-2">
+              What is the limit on the number of URLs I can paste?
+            </h4>
+            <p class="text-sm text-body leading-relaxed">
+              There is no hard limit on the number of URLs you can paste. However, because downloads run inside your browser cache, pasting more than 500-1000 high-resolution images in a single session might exhaust browser tab memory depending on your computer's RAM. We recommend downloading in batches of 300 images.
+            </p>
+          </div>
+          <div class="border-b border-hairline pb-4">
+            <h4 class="text-base font-semibold text-ink mb-2">
+              How does the tool handle duplicates in the pasted URL list?
+            </h4>
+            <p class="text-sm text-body leading-relaxed">
+              Our URL parser scans the input in real-time. It automatically identifies duplicate lines, removes redundant URLs, and calculates unique links to prevent downloading the same file multiple times.
+            </p>
+          </div>
+          <div class="border-b border-hairline pb-4">
+            <h4 class="text-base font-semibold text-ink mb-2">
+              Does the downloader support password-protected image links?
+            </h4>
+            <p class="text-sm text-body leading-relaxed">
+              If the image URLs require cookie authentication or active session logins (such as files inside a private Google Drive or Dropbox link), the direct download might fail unless the links are public. Shared links must be public direct-image targets.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Structured FAQ Schema for SEO Rich Snippets -->
+  <script type="application/ld+json" is:inline>
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the limit on the number of URLs I can paste?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "There is no hard limit on the number of URLs you can paste. However, because downloads run inside your browser cache, pasting more than 500-1000 high-resolution images in a single session might exhaust browser tab memory depending on your computer's RAM. We recommend downloading in batches of 300 images."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the tool handle duplicates in the pasted URL list?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Our URL parser scans the input in real-time. It automatically identifies duplicate lines, removes redundant URLs, and calculates unique links to prevent downloading the same file multiple times."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the downloader support password-protected image links?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If the image URLs require cookie authentication or active session logins (such as files inside a private Google Drive or Dropbox link), the direct download might fail unless the links are public. Shared links must be public direct-image targets."
+          }
+        }
+      ]
+    }
+  </script>
+</Layout>
