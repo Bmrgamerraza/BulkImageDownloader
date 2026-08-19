@@ -1,0 +1,109 @@
+---
+// src/pages/500.astro
+import Layout from "../layouts/Layout.astro";
+
+interface Props {
+  error: unknown;
+}
+
+const { error } = Astro.props;
+const isDev = import.meta.env.DEV;
+
+// Safeguard error messaging to prevent leaking server details in production
+let errorMessage = "An unexpected server-side error occurred.";
+let errorStack = "";
+let errorName = "InternalError";
+
+if (error instanceof Error) {
+  errorMessage = error.message;
+  errorName = error.name;
+  if (isDev && error.stack) {
+    errorStack = error.stack;
+  }
+} else if (typeof error === "string") {
+  errorMessage = error;
+} else if (error) {
+  errorMessage = String(error);
+}
+---
+
+<Layout
+  title="Server Error (500) - Free Bulk Image Downloader"
+  description="An unexpected error occurred. Please try again later or return to Free Bulk Image Downloader."
+  keywords="500, server error, bulk image downloader"
+>
+  <div class="relative overflow-hidden pt-16 pb-24 border border-hairline bg-canvas rounded-lg mb-12 flex flex-col items-center justify-center text-center min-h-[60vh] px-4">
+    <!-- Warm Error Mesh Gradient Backdrop -->
+    <div
+      class="absolute inset-0 -top-40 -left-40 h-[600px] w-[800px] pointer-events-none"
+      style="background-image: radial-gradient(at 30% 30%, var(--error) 0px, transparent 60%); filter: blur(100px); opacity: 0.1;"
+    >
+    </div>
+    <div
+      class="absolute right-0 bottom-0 h-[500px] w-[500px] pointer-events-none"
+      style="background-image: radial-gradient(at 70% 70%, var(--warning) 0px, transparent 60%); filter: blur(100px); opacity: 0.06;"
+    >
+    </div>
+
+    <div class="relative z-10 max-w-2xl mx-auto flex flex-col items-center">
+      <!-- Status Badge -->
+      <span
+        class="inline-flex items-center gap-1.5 rounded-full bg-error-soft px-3.5 py-1 text-xs font-semibold text-error-deep mb-6 animate-pulse"
+      >
+        ⚠️ Error 500
+      </span>
+
+      <!-- 500 Title Graphic -->
+      <h1
+        class="text-7xl sm:text-8xl md:text-9xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-error-deep via-error to-warning select-none leading-none mb-4"
+      >
+        500
+      </h1>
+
+      <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-ink mb-4 font-sans">
+        Internal Server Error
+      </h2>
+      
+      <p class="text-base text-body mb-8 leading-relaxed max-w-md">
+        Something went wrong on our end. Don't worry, your client-side downloads and local settings are safe.
+      </p>
+
+      <!-- Primary Action Buttons -->
+      <div class="flex flex-wrap justify-center gap-4">
+        <button
+          onclick="window.location.reload()"
+          class="rounded-pill bg-primary px-6 py-2.5 text-sm font-semibold text-on-primary hover:bg-neutral-800 transition-colors shadow-sm cursor-pointer"
+        >
+          Refresh Page
+        </button>
+        <a
+          href="/"
+          class="rounded-pill border border-hairline bg-canvas px-6 py-2.5 text-sm font-medium text-body hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+        >
+          Go Back Home
+        </a>
+      </div>
+
+      <!-- Collapsible safe technical details -->
+      {error && (
+        <details class="w-full max-w-xl text-left border border-hairline rounded-md bg-canvas-soft-2 overflow-hidden mt-10">
+          <summary class="px-4 py-3 text-xs font-mono font-semibold text-mute cursor-pointer hover:bg-canvas hover:text-ink transition-colors select-none">
+            🔧 Technical Details {!isDev && "(Production Mode)"}
+          </summary>
+          <div class="p-4 border-t border-hairline bg-canvas font-mono text-xs text-error-deep overflow-x-auto max-h-60 whitespace-pre-wrap leading-relaxed select-text">
+            <p class="font-semibold mb-1">{errorName}: {errorMessage}</p>
+            {isDev && errorStack ? (
+              <p class="text-mute text-[10px] mt-2 border-t border-hairline/50 pt-2 leading-normal">
+                {errorStack}
+              </p>
+            ) : !isDev ? (
+              <p class="text-mute text-[10px] mt-2 border-t border-hairline/50 pt-2 leading-normal">
+                Stack trace is hidden in production mode for security. Refer to server logs for detailed error trace.
+              </p>
+            ) : null}
+          </div>
+        </details>
+      )}
+    </div>
+  </div>
+</Layout>
