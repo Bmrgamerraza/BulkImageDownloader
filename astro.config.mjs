@@ -14,6 +14,16 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      watch: {
+        ignored: [
+          '**/.wrangler/**',
+          '**/.astro/**',
+          '**/dist/**',
+          '**/scratch/**',
+        ],
+      },
+    },
   },
   adapter: cloudflare(),
 });

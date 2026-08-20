@@ -347,6 +347,7 @@ const { defaultTab = "direct" } = Astro.props;
 
 <script>
   import JSZip from "jszip";
+  import { cleanAndNormalizeImageUrl } from "../utils/image";
 
   // State Management
   const root = document.getElementById("downloader-root");
@@ -586,7 +587,9 @@ const { defaultTab = "direct" } = Astro.props;
         .filter((u) => u);
     }
 
-    const uniqueUrls = [...new Set(allUrls)];
+    // Normalize URLs to retrieve high-resolution versions and eliminate duplicates
+    const normalizedUrls = allUrls.map((u) => cleanAndNormalizeImageUrl(u));
+    const uniqueUrls = [...new Set(normalizedUrls)];
 
     statPasted.innerText = allUrls.length.toString();
     statUnique.innerText = uniqueUrls.length.toString();
@@ -661,7 +664,12 @@ const { defaultTab = "direct" } = Astro.props;
 
   // Populates the grid with direct user urls
   function loadDirectUrls(urls: string[]) {
-    discoveredImages = urls.map((url, index) => {
+    // Normalize and clean URLs first
+    const normalizedUrls = urls.map((u) => cleanAndNormalizeImageUrl(u));
+    // Filter duplicates after normalization
+    const uniqueNormalizedUrls = [...new Set(normalizedUrls)];
+
+    discoveredImages = uniqueNormalizedUrls.map((url, index) => {
       const extension = getFileExtension(url);
       return {
         id: `img-${index}`,

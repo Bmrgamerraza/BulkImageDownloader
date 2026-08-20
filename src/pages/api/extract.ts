@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { cleanAndNormalizeImageUrl } from "../../utils/image";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -45,23 +46,68 @@ export const POST: APIRoute = async ({ request }) => {
     const html = await response.text();
     const imageUrls = new Set<string>();
 
-    // 1. Extract <img> tag src attributes
-    // Matches: <img ... src="url" ...> or <img ... src='url' ...>
-    const imgRegex = /<img[^>]+src=["']([^"']+)["']/gi;
+    // 1. Extract attributes from <img> tags (including src, srcset, data-src, etc.)
+    const imgTagRegex = /<img\s+([^>]+)>/gi;
     let match;
-    while ((match = imgRegex.exec(html)) !== null) {
-      if (match[1]) imageUrls.add(match[1].trim());
+    while ((match = imgTagRegex.exec(html)) !== null) {
+      const attrsText = match[1];
+      const attrRegex = /([a-z0-9-]+)\s*=\s*["']([^"']+)["']/gi;
+      let attrMatch;
+      while ((attrMatch = attrRegex.exec(attrsText)) !== null) {
+        const attrName = attrMatch[1].toLowerCase();
+        const attrVal = attrMatch[2].trim();
+        if (!attrVal) continue;
+
+        if (attrName === "src") {
+          imageUrls.add(attrVal);
+        } else if (attrName === "srcset" || attrName === "data-srcset") {
+          const candidates = attrVal.split(",");
+          for (const candidate of candidates) {
+            const parts = candidate.trim().split(/\s+/);
+            if (parts[0]) imageUrls.add(parts[0].trim());
+          }
+        } else if (
+          [
+            "data-src",
+            "data-lazy-src",
+            "data-original",
+            "data-zoom",
+            "data-zoom-image",
+            "data-zoom-src",
+            "data-high-res",
+            "data-high-res-src",
+            "data-large",
+            "data-full",
+            "data-full-size",
+            "data-big",
+            "data-fallback"
+          ].includes(attrName) ||
+          (attrName.startsWith("data-") && /\.(?:png|jpg|jpeg|gif|webp|svg|bmp|ico|avif)(?:\?[^"']*)?$/i.test(attrVal))
+        ) {
+          imageUrls.add(attrVal);
+        }
+      }
     }
 
-    // 2. Extract srcset attributes from <img> and <source> tags
-    const srcsetRegex = /srcset=["']([^"']+)["']/gi;
-    while ((match = srcsetRegex.exec(html)) !== null) {
-      if (match[1]) {
-        // srcset format is "url 1x, url-2 2x" - split by comma and extract url
-        const candidates = match[1].split(",");
-        for (const candidate of candidates) {
-          const parts = candidate.trim().split(/\s+/);
-          if (parts[0]) imageUrls.add(parts[0].trim());
+    // 2. Extract attributes from <source> tags (commonly used in <picture> tags for responsive design)
+    const sourceTagRegex = /<source\s+([^>]+)>/gi;
+    while ((match = sourceTagRegex.exec(html)) !== null) {
+      const attrsText = match[1];
+      const attrRegex = /([a-z0-9-]+)\s*=\s*["']([^"']+)["']/gi;
+      let attrMatch;
+      while ((attrMatch = attrRegex.exec(attrsText)) !== null) {
+        const attrName = attrMatch[1].toLowerCase();
+        const attrVal = attrMatch[2].trim();
+        if (!attrVal) continue;
+
+        if (attrName === "src") {
+          imageUrls.add(attrVal);
+        } else if (attrName === "srcset" || attrName === "data-srcset") {
+          const candidates = attrVal.split(",");
+          for (const candidate of candidates) {
+            const parts = candidate.trim().split(/\s+/);
+            if (parts[0]) imageUrls.add(parts[0].trim());
+          }
         }
       }
     }
@@ -73,13 +119,12 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // 4. Extract links pointing directly to images
-    // Matches: <a ... href="url.jpg" ...>
     const linkRegex = /<a[^>]+href=["']([^"']+\.(?:png|jpg|jpeg|gif|webp|svg|bmp|ico|avif)(?:\?[^"']+)?)["']/gi;
     while ((match = linkRegex.exec(html)) !== null) {
       if (match[1]) imageUrls.add(match[1].trim());
     }
 
-    // Resolve relative URLs to absolute URLs
+    // Resolve relative URLs to absolute URLs and normalize them
     const resolvedUrls = new Set<string>();
     for (const src of imageUrls) {
       try {
@@ -87,7 +132,8 @@ export const POST: APIRoute = async ({ request }) => {
         if (src.startsWith("data:")) continue;
         
         const absoluteUrl = new URL(src, targetUrl.href).href;
-        resolvedUrls.add(absoluteUrl);
+        const normalizedUrl = cleanAndNormalizeImageUrl(absoluteUrl);
+        resolvedUrls.add(normalizedUrl);
       } catch (err) {
         // Ignore resolution errors for invalid links
       }
