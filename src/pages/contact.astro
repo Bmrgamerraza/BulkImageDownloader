@@ -5,7 +5,7 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout
   title="Contact Us - Bulk Image Downloader Support"
-  description="Have feedback, feature requests, or questions? Send us a message and our team will get in touch with you shortly."
+  description="Have feedback, feature requests, or questions? Contact us at our support email and our team will get in touch with you shortly."
   keywords="contact bulk image downloader, downloader support, image scraper feedback"
 >
   <!-- Hero Section -->
@@ -36,184 +36,56 @@ import Layout from "../layouts/Layout.astro";
       <p
         class="text-lg md:text-xl text-body mb-8 leading-relaxed max-w-2xl mx-auto"
       >
-        Have questions, feedback, or custom feature requests? We would love to hear from you.
+        Have questions, feedback, or custom feature requests? Reach out to us via email and our support team will assist you.
       </p>
     </div>
   </section>
 
-  <!-- Interactive Form & Contact Info -->
-  <section class="max-w-[1000px] mx-auto mb-20 grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-    <!-- Contact Info Cards -->
-    <div class="md:col-span-1 space-y-6">
-      <div class="bg-canvas border border-hairline rounded-lg p-6 shadow-sm">
-        <h3 class="font-semibold text-ink mb-2">Direct Contact</h3>
-        <p class="text-sm text-body leading-relaxed mb-4">
-          For business inquiries or direct support, please email us directly:
-        </p>
+  <!-- Contact Info Grid -->
+  <section class="max-w-[900px] mx-auto mb-20 px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+      <!-- Direct Contact Card -->
+      <div class="bg-canvas border border-hairline rounded-lg p-8 shadow-sm flex flex-col justify-between transition-all hover:shadow-md hover:border-link/30">
+        <div>
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-link-bg-soft text-link text-xl mb-6">
+            ✉️
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-ink mb-3 font-sans">
+            Direct Contact
+          </h2>
+          <p class="text-sm text-body leading-relaxed mb-6">
+            For business inquiries, partnership proposals, general feedback, or direct support, please email us directly:
+          </p>
+        </div>
         <a
           href="mailto:support@freebulkimagedownloader.com"
-          class="text-sm font-semibold text-link hover:underline break-all"
+          class="inline-flex h-12 items-center justify-center rounded-sm bg-link-bg-soft text-sm font-semibold text-link hover:bg-link-bg-soft-2 hover:underline transition-colors px-4 py-2 text-center break-all"
         >
           support@freebulkimagedownloader.com
         </a>
       </div>
 
-      <div class="bg-canvas border border-hairline rounded-lg p-6 shadow-sm">
-        <h3 class="font-semibold text-ink mb-2">Technical Support</h3>
-        <p class="text-sm text-body leading-relaxed mb-4">
-          Encountered an issue scraping a specific website? Let us know the URL and we'll refine our parser selectors!
-        </p>
-        <div class="flex items-center gap-2 text-xs text-mute">
-          <span class="inline-block w-2.5 h-2.5 rounded-full bg-success"></span>
-          Stateless proxy active
-        </div>
-      </div>
-    </div>
-
-    <!-- Contact Form Card -->
-    <div class="md:col-span-2 bg-canvas border border-hairline rounded-lg p-6 sm:p-8 md:p-10 shadow-sm">
-      <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-ink mb-6 font-sans">
-        Send a Message
-      </h2>
-
-      <!-- Success message container (hidden by default) -->
-      <div id="contact-success" class="hidden rounded-md border border-success bg-link-bg-soft/40 p-6 text-center space-y-4 mb-6">
-        <div class="text-3xl text-success animate-bounce">✓</div>
-        <h3 class="text-lg font-bold text-ink">Message Sent Successfully!</h3>
-        <p class="text-sm text-body max-w-md mx-auto">
-          Thank you for reaching out. We have received your message and will review it. Our support team typically responds within 24 hours.
-        </p>
-        <button
-          id="btn-reset-form"
-          class="inline-flex h-9 items-center justify-center rounded-sm border border-hairline bg-canvas hover:bg-canvas-soft-2 text-xs font-semibold text-ink px-4 cursor-pointer mt-2"
-        >
-          Send Another Message
-        </button>
-      </div>
-
-      <!-- Main Form -->
-      <form id="contact-form" class="space-y-6">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label for="name" class="block text-xs font-semibold tracking-wider text-ink uppercase mb-2">
-              Full Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              required
-              placeholder="Your Name"
-              class="w-full h-10 px-3 rounded-sm border border-hairline bg-canvas-soft text-sm text-ink placeholder:text-mute focus:outline-none focus:border-link transition-colors"
-            />
+      <!-- Technical Support Card -->
+      <div class="bg-canvas border border-hairline rounded-lg p-8 shadow-sm flex flex-col justify-between transition-all hover:shadow-md hover:border-success/30">
+        <div>
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-success/10 text-success text-xl mb-6">
+            🛠️
           </div>
-          <div>
-            <label for="email" class="block text-xs font-semibold tracking-wider text-ink uppercase mb-2">
-              Email Address
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              required
-              placeholder="you@example.com"
-              class="w-full h-10 px-3 rounded-sm border border-hairline bg-canvas-soft text-sm text-ink placeholder:text-mute focus:outline-none focus:border-link transition-colors"
-            />
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-ink mb-3 font-sans">
+            Technical Support
+          </h2>
+          <p class="text-sm text-body leading-relaxed mb-6">
+            Encountered an issue scraping a specific website? Let us know the URL and details via email, and our team will refine our parser selectors!
+          </p>
+        </div>
+        <div class="flex items-center justify-between border-t border-hairline pt-4 mt-auto">
+          <span class="text-xs font-semibold text-mute uppercase tracking-wider">Service Status</span>
+          <div class="flex items-center gap-2 text-xs font-semibold text-success bg-success/10 rounded-full px-3 py-1">
+            <span class="inline-block w-2 h-2 rounded-full bg-success animate-pulse"></span>
+            Stateless proxy active
           </div>
         </div>
-
-        <div>
-          <label for="subject" class="block text-xs font-semibold tracking-wider text-ink uppercase mb-2">
-            Inquiry Subject
-          </label>
-          <select
-            id="subject"
-            name="subject"
-            class="w-full h-10 px-3 rounded-sm border border-hairline bg-canvas-soft text-sm text-ink focus:outline-none focus:border-link transition-colors cursor-pointer"
-          >
-            <option value="general">General Feedback</option>
-            <option value="support">Technical Support / Bug Report</option>
-            <option value="feature">Feature Proposal</option>
-            <option value="partnership">Business Partnership</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="message" class="block text-xs font-semibold tracking-wider text-ink uppercase mb-2">
-            Message
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            rows="5"
-            required
-            placeholder="Write your message here..."
-            class="w-full p-3 rounded-sm border border-hairline bg-canvas-soft text-sm text-ink placeholder:text-mute focus:outline-none focus:border-link transition-colors resize-y"
-          ></textarea>
-        </div>
-
-        <div>
-          <button
-            type="submit"
-            id="btn-submit"
-            class="w-full sm:w-auto flex h-10 items-center justify-center rounded-sm bg-primary px-8 text-xs font-semibold text-on-primary hover:bg-neutral-800 transition-all cursor-pointer"
-          >
-            Submit Message
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
   </section>
-
-  <!-- Client-side Interactive Logic -->
-  <script>
-    const form = document.getElementById("contact-form") as HTMLFormElement;
-    const successContainer = document.getElementById("contact-success") as HTMLDivElement;
-    const submitBtn = document.getElementById("btn-submit") as HTMLButtonElement;
-    const resetBtn = document.getElementById("btn-reset-form") as HTMLButtonElement;
-
-    if (form && successContainer && submitBtn) {
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        
-        // Basic Client Side validation check
-        const nameVal = (document.getElementById("name") as HTMLInputElement)?.value;
-        const emailVal = (document.getElementById("email") as HTMLInputElement)?.value;
-        const messageVal = (document.getElementById("message") as HTMLTextAreaElement)?.value;
-
-        if (!nameVal || !emailVal || !messageVal) {
-          alert("Please fill in all required fields.");
-          return;
-        }
-
-        // Set Loading State
-        submitBtn.disabled = true;
-        submitBtn.innerText = "Sending Message...";
-        submitBtn.classList.add("opacity-50");
-
-        // Simulate form submission to backend
-        setTimeout(() => {
-          // Hide Form, Show success message
-          form.classList.add("hidden");
-          successContainer.classList.remove("hidden");
-          
-          // Reset Button states
-          submitBtn.disabled = false;
-          submitBtn.innerText = "Submit Message";
-          submitBtn.classList.remove("opacity-50");
-          
-          // Clear inputs
-          form.reset();
-        }, 1200);
-      });
-    }
-
-    if (resetBtn && form && successContainer) {
-      resetBtn.addEventListener("click", () => {
-        // Reset view
-        successContainer.classList.add("hidden");
-        form.classList.remove("hidden");
-      });
-    }
-  </script>
 </Layout>
