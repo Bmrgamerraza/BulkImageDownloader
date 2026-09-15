@@ -8,6 +8,13 @@ import cloudflare from '@astrojs/cloudflare';
 export default defineConfig({
   site: 'https://freebulkimagedownloader.com',
   output: 'server',
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'es', 'ja', 'fr', 'de', 'pt', 'ko', 'it'],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
   integrations: [sitemap()],
   redirects: {
     '/sitemap.xml': '/sitemap-index.xml',
