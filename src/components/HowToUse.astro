@@ -1,5 +1,18 @@
 ---
 // src/components/HowToUse.astro
+import { getLangFromUrl } from "../i18n/utils";
+import { homeContent } from "../i18n/content";
+import type { SupportedLanguage } from "../i18n/ui";
+
+interface Props {
+  lang?: SupportedLanguage;
+}
+
+const currentUrlLang = getLangFromUrl(Astro.url);
+const { lang = currentUrlLang } = Astro.props;
+
+const content = homeContent[lang] || homeContent.en;
+const steps = content.steps;
 ---
 
 <!-- Step by Step How to Use -->
@@ -10,67 +23,30 @@
   <div class="text-center mb-12">
     <span
       class="font-mono text-xs text-mute font-semibold uppercase tracking-wider mb-3 block"
-      >Simple Workflow</span
+      >{content.howToSubtitle}</span
     >
     <h2 class="text-3xl font-bold tracking-tight text-ink font-sans">
-      How to use the bulk downloader.
+      {content.howToTitle}
     </h2>
   </div>
 
   <ol class="space-y-6">
-    <li
-      class="flex gap-4 items-start bg-canvas border border-hairline rounded-md p-4 sm:p-6 shadow-sm"
-    >
-      <span
-        class="h-8 w-8 shrink-0 flex items-center justify-center rounded-full bg-primary text-sm font-bold text-on-primary"
-        >1</span
-      >
-      <div>
-        <h4 class="text-base font-semibold text-ink mb-1">
-          Paste Links or Enter Webpage
-        </h4>
-        <p class="text-sm text-body leading-relaxed">
-          Select the direct link option to paste custom URLs. Alternatively,
-          select the Webpage Extractor tab and paste a target website URL
-          (e.g. <code>https://unsplash.com</code>).
-        </p>
-      </div>
-    </li>
-    <li
-      class="flex gap-4 items-start bg-canvas border border-hairline rounded-md p-4 sm:p-6 shadow-sm"
-    >
-      <span
-        class="h-8 w-8 shrink-0 flex items-center justify-center rounded-full bg-primary text-sm font-bold text-on-primary"
-        >2</span
-      >
-      <div>
-        <h4 class="text-base font-semibold text-ink mb-1">
-          Analyze and Preview
-        </h4>
-        <p class="text-sm text-body leading-relaxed">
-          Click <strong>Load & Analyze URLs</strong>. The system will process
-          your query, identify the images, and load them into the interactive
-          preview grid.
-        </p>
-      </div>
-    </li>
-    <li
-      class="flex gap-4 items-start bg-canvas border border-hairline rounded-md p-4 sm:p-6 shadow-sm"
-    >
-      <span
-        class="h-8 w-8 shrink-0 flex items-center justify-center rounded-full bg-primary text-sm font-bold text-on-primary"
-        >3</span
-      >
-      <div>
-        <h4 class="text-base font-semibold text-ink mb-1">
-          Filter, Customize and Download
-        </h4>
-        <p class="text-sm text-body leading-relaxed">
-          Review the images, deselect any unwanted icons, specify a custom ZIP
-          name, and click <strong>Download Selected</strong>. Watch the
-          real-time download bar finish, and your files are saved.
-        </p>
-      </div>
-    </li>
+    {
+      steps.map((step) => (
+        <li class="flex gap-4 items-start bg-canvas border border-hairline rounded-md p-4 sm:p-6 shadow-sm">
+          <span class="h-8 w-8 shrink-0 flex items-center justify-center rounded-full bg-primary text-sm font-bold text-on-primary">
+            {step.number}
+          </span>
+          <div>
+            <h4 class="text-base font-semibold text-ink mb-1">
+              {step.title}
+            </h4>
+            <p class="text-sm text-body leading-relaxed">
+              {step.description}
+            </p>
+          </div>
+        </li>
+      ))
+    }
   </ol>
 </section>

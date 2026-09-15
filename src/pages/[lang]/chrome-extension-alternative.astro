@@ -1,0 +1,109 @@
+---
+// src/pages/[lang]/chrome-extension-alternative.astro
+import Layout from "../../layouts/Layout.astro";
+import { chromeAltContent } from "../../i18n/content";
+import { supportedLanguages, type SupportedLanguage } from "../../i18n/ui";
+import { useTranslatedPath } from "../../i18n/utils";
+
+export const prerender = false;
+
+const { lang } = Astro.params;
+
+if (!lang || !supportedLanguages.includes(lang as SupportedLanguage) || lang === "en") {
+  return Astro.redirect("/404");
+}
+
+const currentLang = lang as SupportedLanguage;
+const content = chromeAltContent[currentLang] || chromeAltContent.en;
+const translatePath = useTranslatedPath(currentLang);
+---
+
+<Layout
+  title={content.title}
+  description={content.description}
+  keywords={content.keywords}
+  lang={currentLang}
+>
+  <!-- Hero Section -->
+  <section
+    class="relative overflow-hidden pt-12 pb-20 border-b border-hairline bg-canvas rounded-lg mb-12"
+  >
+    <div
+      class="absolute inset-0 -top-40 -left-40 h-[600px] w-[800px] mesh-gradient pointer-events-none"
+    >
+    </div>
+    <div
+      class="absolute right-0 top-0 h-[500px] w-[500px] mesh-gradient pointer-events-none"
+      style="opacity: 0.08;"
+    >
+    </div>
+
+    <div class="relative z-10 max-w-3xl mx-auto text-center px-4">
+      <span
+        class="inline-flex items-center gap-1.5 rounded-full bg-link-bg-soft px-3 py-1 text-xs font-semibold text-link mb-6"
+      >
+        {content.badge}
+      </span>
+      <h1
+        class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink mb-6 font-sans"
+      >
+        {content.heroTitle}
+      </h1>
+      <p
+        class="text-lg md:text-xl text-body mb-8 leading-relaxed max-w-2xl mx-auto"
+      >
+        {content.heroSubtitle}
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-4">
+        <a
+          href={translatePath("/url-list-downloader")}
+          class="rounded-pill bg-primary px-6 py-3 text-sm font-medium text-on-primary hover:bg-neutral-800 transition-colors shadow-sm"
+        >
+          {content.ctaList}
+        </a>
+        <a
+          href={translatePath("/webpage-image-scraper")}
+          class="rounded-pill border border-hairline bg-canvas px-6 py-3 text-sm font-medium text-body hover:bg-canvas-soft-2 transition-colors"
+        >
+          {content.ctaScraper}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Comparison Grid & Content Card -->
+  <section class="max-w-[1000px] mx-auto mb-20">
+    <div
+      class="bg-canvas border border-hairline rounded-lg p-6 sm:p-8 md:p-12 shadow-sm"
+    >
+      <h2
+        class="text-2xl sm:text-3xl font-bold tracking-tight text-ink mb-6 font-sans border-b border-hairline pb-4"
+      >
+        {content.sectionTitle}
+      </h2>
+
+      <div class="prose max-w-none text-sm text-body leading-relaxed space-y-6">
+        {
+          content.paragraphs.map((para) => (
+            <div>
+              {para.heading && (
+                <h3 class="text-xl font-bold text-ink mt-8 mb-4 font-sans">
+                  {para.heading}
+                </h3>
+              )}
+              <p>{para.text}</p>
+              {para.list && (
+                <ul class="list-disc pl-5 space-y-2 mt-3">
+                  {para.list.map((item) => (
+                    <li set:html={item} />
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>

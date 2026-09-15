@@ -1,13 +1,34 @@
 ---
 // src/components/Downloader.astro
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import type { SupportedLanguage } from "../i18n/ui";
+
 interface Props {
   defaultTab?: "direct" | "scraper";
+  lang?: SupportedLanguage;
 }
 
-const { defaultTab = "direct" } = Astro.props;
+const currentUrlLang = getLangFromUrl(Astro.url);
+const { defaultTab = "direct", lang = currentUrlLang } = Astro.props;
+const t = useTranslations(lang);
 ---
 
-<div id="downloader-root" data-default-tab={defaultTab}>
+<div
+  id="downloader-root"
+  data-default-tab={defaultTab}
+  data-text-label-direct={t("tool.labelDirect")}
+  data-text-label-scraper={t("tool.labelScraper")}
+  data-text-placeholder-direct={t("tool.placeholderDirect")}
+  data-text-placeholder-scraper={t("tool.placeholderScraper")}
+  data-text-hint-direct={t("tool.hintDirect")}
+  data-text-hint-scraper={t("tool.hintScraper")}
+  data-text-action-direct={t("tool.btnActionDirect")}
+  data-text-action-scraper={t("tool.btnActionScraper")}
+  data-text-processing={t("tool.btnProcessing")}
+  data-text-extracting={t("tool.btnExtracting")}
+  data-text-download={t("tool.btnDownload")}
+  data-text-downloading={t("tool.btnDownloading")}
+>
   <!-- Downloader Workspace -->
   <section id="downloader" class="scroll-mt-20 max-w-[1000px] mx-auto mb-16">
     <div
@@ -17,15 +38,23 @@ const { defaultTab = "direct" } = Astro.props;
       <div class="flex border-b border-hairline bg-canvas-soft">
         <button
           id="tab-direct"
-          class="flex-1 py-3 sm:py-4 px-3 sm:px-6 text-center text-xs sm:text-sm font-semibold border-b-2 border-primary text-ink transition-colors hover:text-ink cursor-pointer focus:outline-none"
+          class={`flex-1 py-3 sm:py-4 px-3 sm:px-6 text-center text-xs sm:text-sm font-semibold border-b-2 ${
+            defaultTab === "direct"
+              ? "border-primary text-ink"
+              : "border-transparent text-body hover:text-ink"
+          } transition-colors cursor-pointer focus:outline-none`}
         >
-          Paste URL List
+          {t("tool.pasteTab")}
         </button>
         <button
           id="tab-scraper"
-          class="flex-1 py-3 sm:py-4 px-3 sm:px-6 text-center text-xs sm:text-sm font-semibold border-b-2 border-transparent text-body hover:text-ink transition-colors cursor-pointer focus:outline-none"
+          class={`flex-1 py-3 sm:py-4 px-3 sm:px-6 text-center text-xs sm:text-sm font-semibold border-b-2 ${
+            defaultTab === "scraper"
+              ? "border-primary text-ink"
+              : "border-transparent text-body hover:text-ink"
+          } transition-colors cursor-pointer focus:outline-none`}
         >
-          Extract From Webpage
+          {t("tool.scraperTab")}
         </button>
       </div>
 
@@ -37,9 +66,7 @@ const { defaultTab = "direct" } = Astro.props;
         >
           <span class="text-base">💡</span>
           <div class="text-sm text-body" id="instruction-text">
-            Enter direct image URLs (one per line). Supports WebP, PNG, JPG,
-            GIF, SVG, AVIF, and ICO formats. Duplicates are automatically
-            removed.
+            {defaultTab === "direct" ? t("tool.hintDirect") : t("tool.hintScraper")}
           </div>
         </div>
 
@@ -49,23 +76,24 @@ const { defaultTab = "direct" } = Astro.props;
             <label
               for="urls-input"
               class="text-sm font-semibold text-ink"
-              id="input-label">Image URLs</label
+              id="input-label"
+              >{defaultTab === "direct" ? t("tool.labelDirect") : t("tool.labelScraper")}</label
             >
             <div
               id="url-stats"
-              class="text-xs text-mute flex flex-wrap gap-x-3 gap-y-1 select-none"
+              class={`text-xs text-mute flex flex-wrap gap-x-3 gap-y-1 select-none ${defaultTab === "scraper" ? "invisible" : ""}`}
             >
               <span
-                >Total Links: <strong id="stat-pasted" class="text-ink"
+                >{t("tool.statTotal")}: <strong id="stat-pasted" class="text-ink"
                   >0</strong
                 ></span
               >
               <span
-                >Unique: <strong id="stat-unique" class="text-success">0</strong
+                >{t("tool.statUnique")}: <strong id="stat-unique" class="text-success">0</strong
                 ></span
               >
               <span
-                >Duplicates: <strong id="stat-duplicates" class="text-warning"
+                >{t("tool.statDuplicates")}: <strong id="stat-duplicates" class="text-warning"
                   >0</strong
                 ></span
               >
@@ -76,7 +104,7 @@ const { defaultTab = "direct" } = Astro.props;
             id="urls-input"
             rows="8"
             class="w-full rounded-sm border border-hairline bg-canvas p-4 text-sm text-ink placeholder-mute focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors resize-y font-mono"
-            placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.png"
+            placeholder={defaultTab === "direct" ? t("tool.placeholderDirect") : t("tool.placeholderScraper")}
           ></textarea>
         </div>
 
@@ -88,14 +116,16 @@ const { defaultTab = "direct" } = Astro.props;
             id="btn-clear"
             class="w-full sm:w-auto text-sm font-medium text-body hover:text-ink transition-colors py-2 px-4 cursor-pointer"
           >
-            Clear Inputs
+            {t("tool.btnClear")}
           </button>
 
           <button
             id="btn-action"
             class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-pill bg-primary px-8 py-3 text-sm font-semibold text-on-primary hover:bg-neutral-800 transition-colors shadow-sm cursor-pointer disabled:opacity-50 disabled:pointer-events-none"
           >
-            <span id="btn-text">Load & Analyze URLs</span>
+            <span id="btn-text"
+              >{defaultTab === "direct" ? t("tool.btnActionDirect") : t("tool.btnActionScraper")}</span
+            >
             <span
               id="btn-spinner"
               class="hidden h-4 w-4 animate-spin rounded-full border-2 border-on-primary border-t-transparent"
@@ -218,9 +248,9 @@ const { defaultTab = "direct" } = Astro.props;
         class="flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between border-b border-hairline pb-6"
       >
         <div>
-          <h2 class="text-xl font-bold text-ink mb-1">Discovered Images</h2>
+          <h2 class="text-xl font-bold text-ink mb-1">{t("tool.foundImages")}</h2>
           <p class="text-sm text-body">
-            Select images to bundle and customize your download settings.
+            {t("tool.hintDirect")}
           </p>
         </div>
 
@@ -230,13 +260,13 @@ const { defaultTab = "direct" } = Astro.props;
             id="btn-select-all"
             class="text-xs font-semibold px-3 py-1.5 rounded-sm bg-canvas border border-hairline hover:bg-canvas-soft transition-colors cursor-pointer"
           >
-            Select All
+            {t("tool.selectAll")}
           </button>
           <button
             id="btn-deselect-all"
             class="text-xs font-semibold px-3 py-1.5 rounded-sm bg-canvas border border-hairline hover:bg-canvas-soft transition-colors cursor-pointer"
           >
-            Deselect All
+            {t("tool.deselectAll")}
           </button>
         </div>
       </div>
@@ -247,7 +277,7 @@ const { defaultTab = "direct" } = Astro.props;
           data-filter="all"
           class="filter-tab px-4 py-2 text-sm font-semibold border-b-2 border-primary text-ink focus:outline-none cursor-pointer"
         >
-          All Formats (<span id="count-all">0</span>)
+          {t("tool.filterAll")} (<span id="count-all">0</span>)
         </button>
         <button
           data-filter="jpg"
@@ -284,7 +314,7 @@ const { defaultTab = "direct" } = Astro.props;
             <label
               for="zip-filename"
               class="block text-xs font-bold text-ink uppercase mb-2"
-              >ZIP Filename</label
+              >{t("tool.zipNameLabel")}</label
             >
             <input
               type="text"
@@ -330,7 +360,7 @@ const { defaultTab = "direct" } = Astro.props;
           id="btn-download-selected"
           class="w-full md:w-auto h-12 inline-flex items-center justify-center gap-2 rounded-pill bg-primary px-8 text-sm font-semibold text-on-primary hover:bg-neutral-800 transition-colors shadow-sm cursor-pointer disabled:opacity-50 disabled:pointer-events-none shrink-0"
         >
-          ⬇️ Download Selected (<span id="download-count">0</span>)
+          ⬇️ {t("tool.btnDownload")} (<span id="download-count">0</span>)
         </button>
       </div>
 
@@ -500,12 +530,12 @@ const { defaultTab = "direct" } = Astro.props;
       tabScraper.classList.add("border-transparent", "text-body");
       tabScraper.classList.remove("border-primary", "text-ink");
 
-      inputLabel.innerText = "Image URLs";
+      inputLabel.innerText = root?.dataset.textLabelDirect || "Image URLs";
       urlsInput.placeholder =
-        "https://example.com/image1.jpg\nhttps://example.com/image2.png";
+        root?.dataset.textPlaceholderDirect || "https://example.com/image1.jpg\nhttps://example.com/image2.png";
       instructionText.innerText =
-        "Enter direct image URLs (one per line). Supports WebP, PNG, JPG, GIF, SVG, AVIF, and ICO formats. Duplicates are automatically removed.";
-      btnText.innerText = "Load & Analyze URLs";
+        root?.dataset.textHintDirect || "Enter direct image URLs (one per line). Supports WebP, PNG, JPG, GIF, SVG, AVIF, and ICO formats. Duplicates are automatically removed.";
+      btnText.innerText = root?.dataset.textActionDirect || "Load & Analyze URLs";
       urlStats.classList.remove("invisible");
     } else {
       tabScraper.classList.add("border-primary", "text-ink");
@@ -513,11 +543,11 @@ const { defaultTab = "direct" } = Astro.props;
       tabDirect.classList.add("border-transparent", "text-body");
       tabDirect.classList.remove("border-primary", "text-ink");
 
-      inputLabel.innerText = "Webpage URL";
-      urlsInput.placeholder = "https://example.com";
+      inputLabel.innerText = root?.dataset.textLabelScraper || "Webpage URL";
+      urlsInput.placeholder = root?.dataset.textPlaceholderScraper || "https://example.com";
       instructionText.innerText =
-        "Enter a single webpage URL to scan. Our extraction engine will retrieve all absolute image targets, inline CSS background sources, and direct images linked in anchor tags.";
-      btnText.innerText = "Extract Webpage Images";
+        root?.dataset.textHintScraper || "Enter a single webpage URL to scan. Our extraction engine will retrieve all absolute image targets, inline CSS background sources, and direct images linked in anchor tags.";
+      btnText.innerText = root?.dataset.textActionScraper || "Extract Webpage Images";
       urlStats.classList.add("invisible");
     }
 
@@ -771,14 +801,17 @@ const { defaultTab = "direct" } = Astro.props;
     if (loading) {
       btnAction.disabled = true;
       btnSpinner.classList.remove("hidden");
-      btnText.innerText = "Processing...";
+      btnText.innerText =
+        activeTab === "direct"
+          ? root?.dataset.textProcessing || "Processing..."
+          : root?.dataset.textExtracting || "Extracting...";
     } else {
       btnAction.disabled = false;
       btnSpinner.classList.add("hidden");
       btnText.innerText =
         activeTab === "direct"
-          ? "Load & Analyze URLs"
-          : "Extract Webpage Images";
+          ? root?.dataset.textActionDirect || "Load & Analyze URLs"
+          : root?.dataset.textActionScraper || "Extract Webpage Images";
     }
   }
 

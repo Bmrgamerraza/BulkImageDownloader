@@ -1,0 +1,165 @@
+---
+// src/components/LanguagePicker.astro
+import { languages, type SupportedLanguage } from "../i18n/ui";
+import { getLangFromUrl, getLocalizedUrl } from "../i18n/utils";
+
+interface Props {
+  variant?: "header" | "footer" | "mobile";
+  class?: string;
+}
+
+const { variant = "header", class: className = "" } = Astro.props;
+const currentLang = getLangFromUrl(Astro.url);
+const currentPathname = Astro.url.pathname;
+---
+
+{
+  variant === "header" && (
+    <div class={`relative inline-block text-left lang-picker-container ${className}`}>
+      <button
+        type="button"
+        id="lang-menu-button"
+        aria-expanded="false"
+        aria-haspopup="true"
+        class="h-7 px-2.5 flex items-center gap-1.5 rounded-sm border border-hairline bg-canvas hover:bg-canvas-soft-2 text-ink text-xs font-medium cursor-pointer transition-colors focus:outline-none"
+        title="Select Language"
+      >
+        <span class="text-xs">🌐</span>
+        <span class="hidden sm:inline font-mono">{languages[currentLang]}</span>
+        <span class="sm:hidden font-mono uppercase">{currentLang}</span>
+        <svg
+          class="h-3 w-3 text-mute transition-transform duration-200"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      </button>
+
+      <!-- Dropdown Menu -->
+      <div
+        id="lang-menu-dropdown"
+        class="hidden absolute right-0 z-50 mt-1.5 w-44 origin-top-right rounded-md border border-hairline bg-canvas/95 backdrop-blur-md py-1 shadow-lg focus:outline-none"
+        role="menu"
+        aria-orientation="vertical"
+        aria-labelledby="lang-menu-button"
+      >
+        {Object.entries(languages).map(([code, label]) => {
+          const isActive = code === currentLang;
+          const href = getLocalizedUrl(currentPathname, code as SupportedLanguage);
+          return (
+            <a
+              href={href}
+              class={`flex items-center justify-between px-3 py-1.5 text-xs font-medium transition-colors hover:bg-canvas-soft-2 ${
+                isActive ? "text-primary font-bold bg-canvas-soft" : "text-body hover:text-ink"
+              }`}
+              role="menuitem"
+            >
+              <span>{label}</span>
+              {isActive && <span class="text-primary text-xs">✓</span>}
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  )
+}
+
+{
+  variant === "mobile" && (
+    <div class={`flex flex-col gap-2 ${className}`}>
+      <span class="text-xs font-mono font-semibold text-mute uppercase tracking-wider">
+        🌐 Language / Idioma
+      </span>
+      <div class="grid grid-cols-2 gap-2">
+        {Object.entries(languages).map(([code, label]) => {
+          const isActive = code === currentLang;
+          const href = getLocalizedUrl(currentPathname, code as SupportedLanguage);
+          return (
+            <a
+              href={href}
+              class={`flex items-center justify-between rounded-sm border px-3 py-2 text-xs font-medium transition-colors ${
+                isActive
+                  ? "border-primary bg-primary text-on-primary font-semibold"
+                  : "border-hairline bg-canvas text-body hover:text-ink hover:bg-canvas-soft"
+              }`}
+            >
+              <span>{label}</span>
+              {isActive && <span>✓</span>}
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  )
+}
+
+{
+  variant === "footer" && (
+    <div class={`flex flex-wrap items-center gap-x-4 gap-y-2 text-xs ${className}`}>
+      <span class="font-mono text-mute uppercase font-semibold">🌐 Languages:</span>
+      <div class="flex flex-wrap items-center gap-2">
+        {Object.entries(languages).map(([code, label], idx) => {
+          const isActive = code === currentLang;
+          const href = getLocalizedUrl(currentPathname, code as SupportedLanguage);
+          return (
+            <>
+              <a
+                href={href}
+                class={`transition-colors hover:text-ink ${
+                  isActive ? "text-ink font-bold underline" : "text-mute"
+                }`}
+                title={label}
+              >
+                {label}
+              </a>
+              {idx < Object.keys(languages).length - 1 && (
+                <span class="text-hairline">·</span>
+              )}
+            </>
+          );
+        })}
+      </div>
+    </div>
+  )
+}
+
+<script>
+  // Setup Dropdown toggle logic
+  function setupLangDropdown() {
+    const btn = document.getElementById("lang-menu-button");
+    const dropdown = document.getElementById("lang-menu-dropdown");
+
+    if (btn && dropdown) {
+      const toggleDropdown = (e: Event) => {
+        e.stopPropagation();
+        const isHidden = dropdown.classList.toggle("hidden");
+        btn.setAttribute("aria-expanded", String(!isHidden));
+        const svg = btn.querySelector("svg");
+        if (svg) {
+          svg.style.transform = isHidden ? "rotate(0deg)" : "rotate(180deg)";
+        }
+      };
+
+      btn.addEventListener("click", toggleDropdown);
+
+      document.addEventListener("click", (e) => {
+        if (!btn.contains(e.target as Node) && !dropdown.contains(e.target as Node)) {
+          dropdown.classList.add("hidden");
+          btn.setAttribute("aria-expanded", "false");
+          const svg = btn.querySelector("svg");
+          if (svg) svg.style.transform = "rotate(0deg)";
+        }
+      });
+    }
+  }
+
+  setupLangDropdown();
+  document.addEventListener("astro:page-load", setupLangDropdown);
+</script>
